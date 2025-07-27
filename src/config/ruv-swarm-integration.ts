@@ -223,7 +223,14 @@ let integrationInstance: RuvSwarmIntegration | null = null;
 
 export function getRuvSwarmIntegration(): RuvSwarmIntegration {
   if (!integrationInstance) {
-    const logger = console; // Temporary logger fallback
+    // Create temporary logger that implements ILogger interface
+    const logger = {
+      info: (msg: string, meta?: any) => console.log(`[INFO] ${msg}`, meta || ''),
+      warn: (msg: string, meta?: any) => console.warn(`[WARN] ${msg}`, meta || ''),
+      error: (msg: string, meta?: any) => console.error(`[ERROR] ${msg}`, meta || ''),
+      debug: (msg: string, meta?: any) => console.debug(`[DEBUG] ${msg}`, meta || ''),
+      configure: async () => {} // Async no-op configuration method
+    };
     const ruvSwarmManager = getRuvSwarmConfigManager(logger);
     integrationInstance = new RuvSwarmIntegration(configManager, ruvSwarmManager);
   }
