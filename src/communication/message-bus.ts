@@ -7,6 +7,7 @@ import type { ILogger } from '../core/logger.js';
 import type { IEventBus } from '../core/event-bus.js';
 import type { SwarmEvent, EventType, AgentId, CommunicationStrategy } from '../swarm/types.js';
 import { generateId } from '../utils/helpers.js';
+import { hasAgentId } from '../utils/type-guards.js';
 
 export interface MessageBusConfig {
   strategy: CommunicationStrategy;
@@ -269,13 +270,13 @@ export class MessageBus extends EventEmitter {
   }
 
   private setupEventHandlers(): void {
-    this.eventBus.on('agent:connected', (data) => {
+    this.eventBus.on('agent:connected', (data: unknown) => {
       if (hasAgentId(data)) {
         this.handleAgentConnected(data.agentId);
       }
     });
 
-    this.eventBus.on('agent:disconnected', (data) => {
+    this.eventBus.on('agent:disconnected', (data: unknown) => {
       if (hasAgentId(data)) {
         this.handleAgentDisconnected(data.agentId);
       }
