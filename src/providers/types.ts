@@ -23,7 +23,10 @@ export type LLMModel =
   | 'gpt-4-32k'
   | 'gpt-3.5-turbo'
   | 'gpt-3.5-turbo-16k'
-  // Anthropic Models
+  // Anthropic Claude 4 Models (Latest)
+  | 'claude-opus-4-20250514'
+  | 'claude-sonnet-4-20250514'
+  // Anthropic Claude 3 Models (Legacy)
   | 'claude-3-opus-20240229'
   | 'claude-3-sonnet-20240229'
   | 'claude-3-haiku-20240307'
@@ -112,12 +115,23 @@ export interface LLMRequest {
   functionCall?: 'auto' | 'none' | { name: string };
   
   // Provider-specific options
-  providerOptions?: Record<string, any>;
+  providerOptions?: {
+    preferredProvider?: LLMProvider;
+    fallbackProviders?: LLMProvider[];
+    useExtendedThinking?: boolean; // Claude 4 extended thinking mode
+    useHybridReasoning?: boolean; // Claude 4 hybrid reasoning
+    [key: string]: any;
+  };
   
   // Cost optimization
   costConstraints?: {
     maxCost?: number;
     preferredModels?: LLMModel[];
+  };
+  
+  // Max Pro plan quota constraints
+  quotaConstraints?: {
+    maxProPlan?: MaxProQuotaInfo;
   };
 }
 
@@ -201,6 +215,11 @@ export interface ProviderCapabilities {
   supportsEmbeddings: boolean;
   supportsLogprobs: boolean;
   supportsBatching: boolean;
+  
+  // Claude 4 specific features
+  supportsHybridReasoning?: boolean; // Claude 4 hybrid reasoning (near-instant + extended thinking)
+  supportsExtendedThinking?: boolean; // Claude 4 extended thinking mode
+  supportsEnhancedTools?: boolean; // Claude 4 enhanced tool support
   
   // Constraints
   rateLimit?: {
@@ -372,6 +391,29 @@ export interface UsageStats {
 }
 
 export type UsagePeriod = 'hour' | 'day' | 'week' | 'month' | 'all';
+
+// ===== MAX PRO PLAN QUOTA MANAGEMENT =====
+
+export interface MaxProQuotaInfo {
+  quotaReset: Date; // Next quota reset time (5-hour cycles)
+  opusQuotaUsed: number; // Opus requests used in current cycle
+  sonnetQuotaUsed: number; // Sonnet requests used in current cycle
+  opusQuotaLimit: number; // 20% of total quota allocated to Opus
+  sonnetQuotaLimit: number; // 80% of total quota allocated to Sonnet
+  totalQuotaLimit: number; // Total requests per 5-hour cycle
+  currentCycleStart: Date; // When current quota cycle started
+}
+
+export interface MaxProOptimization {
+  recommendedModel: LLMModel;
+  reasoning: string;
+  quotaImpact: {
+    opusRemaining: number;
+    sonnetRemaining: number;
+    nextResetIn: number; // milliseconds
+  };
+  fallbackOptions: LLMModel[];
+}
 
 // ===== FALLBACK AND RETRY STRATEGIES =====
 

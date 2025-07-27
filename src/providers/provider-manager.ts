@@ -27,6 +27,8 @@ import {
   LLMProviderError,
   RateLimitError,
   isRateLimitError,
+  MaxProQuotaInfo,
+  MaxProOptimization,
 } from './types.js';
 
 // Import providers
@@ -65,6 +67,7 @@ export class ProviderManager extends EventEmitter {
   private providerMetrics: Map<LLMProvider, ProviderMetrics[]> = new Map();
   private cache: Map<string, { response: LLMResponse; timestamp: Date }> = new Map();
   private currentProviderIndex = 0;
+  private maxProQuota: MaxProQuotaInfo | null = null;
 
   constructor(logger: ILogger, configManager: ConfigManager, config: ProviderManagerConfig) {
     super();
@@ -215,9 +218,31 @@ export class ProviderManager extends EventEmitter {
   }
 
   /**
-   * Select the best provider for a request
+   * Select the best provider for a request with Max Pro optimization
    */
   private async selectProvider(request: LLMRequest): Promise<ILLMProvider> {
+    // Max Pro plan intelligent routing
+    if (this.maxProQuota && request.quotaConstraints?.maxProPlan) {
+      const anthropicProvider = this.providers.get('anthropic') as AnthropicProvider;
+      if (anthropicProvider) {
+        const optimization = await anthropicProvider.selectOptimalModel(request);
+        
+        // Use recommended model from Max Pro optimization
+        const optimizedRequest = {
+          ...request,
+          model: optimization.recommendedModel,
+        };
+        
+        this.logger.info('Max Pro optimization applied', {
+          originalModel: request.model,
+          recommendedModel: optimization.recommendedModel,
+          reasoning: optimization.reasoning,
+        });
+        
+        return anthropicProvider;
+      }
+    }
+
     // If specific provider requested
     if (request.providerOptions?.preferredProvider) {
       const provider = this.providers.get(request.providerOptions.preferredProvider);
@@ -636,6 +661,54 @@ export class ProviderManager extends EventEmitter {
    */
   getAllProviders(): Map<LLMProvider, ILLMProvider> {
     return new Map(this.providers);
+  }
+
+  /**
+   * Max Pro plan quota management
+   */
+  setMaxProQuota(quota: MaxProQuotaInfo): void {
+    this.maxProQuota = quota;
+    
+    // Also set quota on Anthropic provider
+    const anthropicProvider = this.providers.get('anthropic') as AnthropicProvider;
+    if (anthropicProvider) {
+      anthropicProvider.setMaxProQuota(quota);
+    }
+  }
+
+  getMaxProQuota(): MaxProQuotaInfo | null {
+    return this.maxProQuota;
+  }
+
+  /**
+   * Initialize Max Pro quota with default settings
+   */
+  initializeMaxProQuota(totalQuotaLimit: number = 1000): void {
+    const now = new Date();
+    const quotaReset = new Date(now.getTime() + 5 * 60 * 60 * 1000); // 5 hours from now
+    
+    this.maxProQuota = {
+      quotaReset,
+      opusQuotaUsed: 0,
+      sonnetQuotaUsed: 0,
+      opusQuotaLimit: Math.floor(totalQuotaLimit * 0.2), // 20% for Opus
+      sonnetQuotaLimit: Math.floor(totalQuotaLimit * 0.8), // 80% for Sonnet
+      totalQuotaLimit,
+      currentCycleStart: now,
+    };
+
+    this.setMaxProQuota(this.maxProQuota);
+  }
+
+  /**
+   * Get Max Pro optimization recommendations
+   */
+  async getMaxProOptimization(request: LLMRequest): Promise<MaxProOptimization | null> {
+    const anthropicProvider = this.providers.get('anthropic') as AnthropicProvider;
+    if (anthropicProvider && this.maxProQuota) {
+      return await anthropicProvider.selectOptimalModel(request);
+    }
+    return null;
   }
 
   /**

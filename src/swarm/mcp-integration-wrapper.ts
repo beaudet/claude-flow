@@ -68,6 +68,15 @@ export interface MCPIntegrationConfig {
   enableErrorRecovery: boolean;
   parallelExecution: boolean;
   maxConcurrentTools: number;
+  
+  // Claude 4 enhanced tool support
+  claude4Features?: {
+    enableHybridReasoning: boolean; // Use Claude 4 hybrid reasoning for complex tool operations
+    enableExtendedThinking: boolean; // Use Claude 4 extended thinking for tool planning
+    toolExecutionOptimization: 'speed' | 'accuracy' | 'hybrid'; // Optimize for speed or accuracy
+    enhancedToolParsing: boolean; // Use Claude 4 enhanced tool output parsing
+    intelligentRetry: boolean; // Use Claude 4 intelligence for retry strategies
+  };
 }
 
 export class MCPIntegrationWrapper extends EventEmitter {
@@ -781,6 +790,16 @@ export class MCPIntegrationWrapper extends EventEmitter {
       enableErrorRecovery: true,
       parallelExecution: true,
       maxConcurrentTools: 5,
+      
+      // Claude 4 enhanced features - enabled by default
+      claude4Features: {
+        enableHybridReasoning: true,
+        enableExtendedThinking: true,
+        toolExecutionOptimization: 'hybrid',
+        enhancedToolParsing: true,
+        intelligentRetry: true,
+      },
+      
       ...config,
     };
   }
