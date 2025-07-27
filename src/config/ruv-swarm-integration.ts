@@ -225,6 +225,7 @@ let integrationInstance: RuvSwarmIntegration | null = null;
 
 export function getRuvSwarmIntegration(): RuvSwarmIntegration {
   if (!integrationInstance) {
+    const logger = console; // Temporary logger fallback
     const ruvSwarmManager = getRuvSwarmConfigManager(logger);
     integrationInstance = new RuvSwarmIntegration(configManager, ruvSwarmManager);
   }
