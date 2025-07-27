@@ -134,7 +134,7 @@ export class CoordinationMetricsCollector {
 
     this.collectionInterval = setInterval(() => {
       this.collectMetrics();
-    }, this.collectionIntervalMs);
+    }, this.collectionIntervalMs) as any;
   }
 
   /**

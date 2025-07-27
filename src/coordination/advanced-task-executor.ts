@@ -437,6 +437,7 @@ export class AdvancedTaskExecutor extends EventEmitter {
         cpu: context.resources.cpu,
         disk: context.resources.disk,
         network: context.resources.network,
+        lastUpdated: new Date(),
       },
     };
   }
@@ -632,7 +633,7 @@ export class AdvancedTaskExecutor extends EventEmitter {
     queuedTasks: number;
     maxConcurrentTasks: number;
     totalCapacity: number;
-    resourceLimits: typeof this.config.resourceLimits;
+    resourceLimits: any;
     circuitBreakers: Record<string, any>;
   } {
     return {

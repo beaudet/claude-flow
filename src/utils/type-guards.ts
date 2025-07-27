@@ -49,15 +49,21 @@ export function hasCode(value: unknown): value is { code: string | number } {
 }
 
 /**
- * Check if a value has an agentId property
+ * Check if a value has an agentId property with full AgentId structure
  */
-export function hasAgentId(value: unknown): value is { agentId: { id: string } } {
+export function hasAgentId(value: unknown): value is { agentId: { id: string; swarmId: string; type: any; instance: number } } {
   return (
     isObject(value) &&
     'agentId' in value &&
     isObject(value.agentId) &&
     'id' in value.agentId &&
-    typeof value.agentId.id === 'string'
+    typeof value.agentId.id === 'string' &&
+    'swarmId' in value.agentId &&
+    typeof value.agentId.swarmId === 'string' &&
+    'type' in value.agentId &&
+    typeof value.agentId.type === 'string' &&
+    'instance' in value.agentId &&
+    typeof value.agentId.instance === 'number'
   );
 }
 

@@ -353,7 +353,7 @@ export class TaskScheduler {
     const timeoutMs = this.config.resourceTimeout;
     scheduled.timeout = setTimeout(() => {
       this.failTask(taskId, new TaskTimeoutError(taskId, timeoutMs));
-    }, timeoutMs);
+    }, timeoutMs) as any;
   }
 
   private canStartTask(task: Task): boolean {
