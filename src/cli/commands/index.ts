@@ -80,7 +80,7 @@ export function setupCommands(cli: CLI): void {
 
         // Check if files already exist
         const files = ['CLAUDE.md', 'memory-bank.md', 'coordination.md'];
-        const existingFiles = [];
+        const existingFiles: string[] = [];
 
         for (const file of files) {
           const { access } = await import('fs/promises');
@@ -1250,7 +1250,7 @@ Now, please proceed with the task: ${task}`;
               return;
             }
 
-            const promises = [];
+            const promises: Promise<any>[] = [];
 
             for (const task of workflow.tasks) {
               const claudeCmd = ['claude', `"${task.description || task.name}"`];

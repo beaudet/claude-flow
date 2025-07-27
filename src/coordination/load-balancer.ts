@@ -155,25 +155,30 @@ export class LoadBalancer extends EventEmitter {
   private setupEventHandlers(): void {
     this.eventBus.on('agent:load-update', (data) => {
       if (hasAgentLoad(data)) {
-        this.updateAgentLoad(data.agentId, data.load);
+        const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
+        this.updateAgentLoad(agentId, data.load);
       }
     });
 
     this.eventBus.on('task:queued', (data) => {
       if (hasAgentTask(data)) {
-        this.updateTaskQueue(data.agentId, data.task, 'add');
+        const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
+        this.updateTaskQueue(agentId, data.task, 'add');
       }
     });
 
     this.eventBus.on('task:started', (data) => {
       if (hasAgentTask(data)) {
-        this.updateTaskQueue(data.agentId, data.task, 'remove');
+        const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
+        this.updateTaskQueue(agentId, data.task, 'remove');
       }
     });
 
     this.eventBus.on('workstealing:request', (data) => {
       if (hasWorkStealingData(data)) {
-        this.executeWorkStealing(data.sourceAgent, data.targetAgent, data.taskCount);
+        const sourceAgentId = typeof data.sourceAgent === 'string' ? data.sourceAgent : data.sourceAgent.id;
+        const targetAgentId = typeof data.targetAgent === 'string' ? data.targetAgent : data.targetAgent.id;
+        this.executeWorkStealing(sourceAgentId, targetAgentId, data.taskCount);
       }
     });
 

@@ -174,7 +174,7 @@ export async function swarmAction(ctx: CommandContext) {
 
     // Register agents based on strategy
     const agentTypes = getAgentTypesForStrategy(options.strategy);
-    const agents = [];
+    const agents: string[] = [];
 
     for (let i = 0; i < Math.min(options.maxAgents, agentTypes.length); i++) {
       const agentType = agentTypes[i % agentTypes.length];
@@ -270,7 +270,7 @@ export async function swarmAction(ctx: CommandContext) {
  * Decompose objective into subtasks based on strategy
  */
 async function decomposeObjective(objective: string, options: any): Promise<any[]> {
-  const subtasks = [];
+  const subtasks: Array<{type: string; description: string}> = [];
 
   switch (options.strategy) {
     case 'research':

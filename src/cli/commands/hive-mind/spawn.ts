@@ -113,7 +113,7 @@ export const spawnCommand = new Command('spawn')
 
       // Spawn agents
       const batchSize = parseInt(options.batch, 10);
-      const spawnedAgents = [];
+      const spawnedAgents: any[] = [];
 
       for (let i = 0; i < batchSize; i++) {
         const agentName = options.name || `${type}-${Date.now()}-${i}`;

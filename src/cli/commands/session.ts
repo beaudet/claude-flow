@@ -159,7 +159,7 @@ async function listSessions(options: any): Promise<void> {
     console.log(chalk.cyan.bold(`Sessions (${filteredSessions.length})`));
     console.log('─'.repeat(60));
 
-    const rows = [];
+    const rows: string[][] = [];
     for (const session of filteredSessions) {
       rows.push([
         chalk.gray(session.id.substring(0, 8) + '...'),

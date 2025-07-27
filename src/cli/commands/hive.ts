@@ -459,7 +459,7 @@ async function aggregateResultsWithQuality(
   options: HiveOptions,
 ) {
   // Collect all execution results
-  const results = [];
+  const results: any[] = [];
   for (const agent of agents) {
     const pattern = `execution/${agent.id}/*`;
     const executions = await memory.search(pattern, 10);

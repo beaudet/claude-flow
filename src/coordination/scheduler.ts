@@ -35,7 +35,7 @@ export class TaskScheduler {
     this.logger.info('Initializing task scheduler');
 
     // Set up periodic cleanup
-    setInterval(() => this.cleanup(), 60000); // Every minute
+    setInterval(() => this.cleanup(), 60000) as any; // Every minute
   }
 
   async shutdown(): Promise<void> {

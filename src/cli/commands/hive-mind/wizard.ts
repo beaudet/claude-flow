@@ -341,7 +341,7 @@ async function spawnAgentInteractive(hiveMind: HiveMind) {
   const spinner = require('ora')(`Spawning ${answers.count} ${answers.type} agent(s)...`).start();
 
   try {
-    const agents = [];
+    const agents: any[] = [];
     for (let i = 0; i < answers.count; i++) {
       const agent = await hiveMind.spawnAgent({
         type: answers.type,

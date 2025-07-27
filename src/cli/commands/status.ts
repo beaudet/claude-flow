@@ -93,7 +93,7 @@ function showFullStatus(status: any): void {
   console.log(chalk.cyan.bold('Components'));
   console.log('─'.repeat(50));
 
-  const componentRows = [];
+  const componentRows: any[] = [];
   for (const [name, component] of Object.entries(status.components)) {
     const comp = component as any;
     const statusIcon = formatStatusIndicator(comp.status);
@@ -120,7 +120,7 @@ function showFullStatus(status: any): void {
     console.log(chalk.cyan.bold('Resource Usage'));
     console.log('─'.repeat(50));
 
-    const resourceRows = [];
+    const resourceRows: any[] = [];
     for (const [name, resource] of Object.entries(status.resources)) {
       const res = resource as any;
       const percentage = ((res.used / res.total) * 100).toFixed(1);
@@ -149,7 +149,7 @@ function showFullStatus(status: any): void {
     console.log('─'.repeat(50));
 
     if (status.agents.length > 0) {
-      const agentRows = [];
+      const agentRows: any[] = [];
       for (const agent of status.agents) {
         const statusIcon = formatStatusIndicator(agent.status);
         const statusText = getStatusColor(agent.status)(agent.status);
@@ -181,7 +181,7 @@ function showFullStatus(status: any): void {
     console.log('─'.repeat(50));
 
     if (status.recentTasks.length > 0) {
-      const taskRows = [];
+      const taskRows: any[] = [];
       for (const task of status.recentTasks.slice(0, 10)) {
         const statusIcon = formatStatusIndicator(task.status);
         const statusText = getStatusColor(task.status)(task.status);
@@ -233,7 +233,7 @@ function showComponentStatus(status: any, componentName: string): void {
     console.log();
     console.log(chalk.cyan('Metrics:'));
 
-    const metricRows = [];
+    const metricRows: any[] = [];
     for (const [name, value] of Object.entries(component.metrics)) {
       metricRows.push([chalk.white(name), (value as any).toString()]);
     }
@@ -249,7 +249,7 @@ function showComponentStatus(status: any, componentName: string): void {
     console.log();
     console.log(chalk.red('Recent Errors:'));
 
-    const errorRows = [];
+    const errorRows: any[] = [];
     for (const error of component.errors.slice(0, 5)) {
       errorRows.push([new Date(error.timestamp).toLocaleTimeString(), error.message]);
     }
