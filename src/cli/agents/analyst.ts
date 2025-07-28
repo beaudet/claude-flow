@@ -403,10 +403,10 @@ export class AnalystAgent extends BaseAgent {
   }
 
   private async analyzeData(task: TaskDefinition): Promise<any> {
-    const dataset = task.context?.dataset;
-    const analysisType = task.context?.type || 'exploratory';
-    const metrics = task.context?.metrics || ['central_tendency', 'distribution', 'correlation'];
-    const outputFormat = task.context?.format || 'report';
+    const dataset = task.context?.['dataset'];
+    const analysisType = task.context?.['type'] || 'exploratory';
+    const metrics = task.context?.['metrics'] || ['central_tendency', 'distribution', 'correlation'];
+    const outputFormat = task.context?.['format'] || 'report';
 
     this.logger.info('Analyzing data', {
       analysisType,
@@ -493,10 +493,10 @@ export class AnalystAgent extends BaseAgent {
   }
 
   private async analyzePerformance(task: TaskDefinition): Promise<any> {
-    const system = task.context?.system;
-    const metrics = task.context?.metrics || ['response_time', 'throughput', 'error_rate'];
-    const timeframe = task.context?.timeframe || '24h';
-    const baseline = task.context?.baseline;
+    const system = task.context?.['system'];
+    const metrics = task.context?.['metrics'] || ['response_time', 'throughput', 'error_rate'];
+    const timeframe = task.context?.['timeframe'] || '24h';
+    const baseline = task.context?.['baseline'];
 
     this.logger.info('Analyzing performance', {
       system,

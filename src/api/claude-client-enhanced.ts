@@ -78,8 +78,6 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
       temperature: 0.7,
       maxTokens: 4096,
       topP: 1,
-      topK: undefined,
-      systemPrompt: undefined,
       timeout: 60000,
       retryAttempts: 3,
       retryDelay: 1000,
@@ -96,8 +94,8 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
     };
 
     // Load from environment
-    if (process.env.ANTHROPIC_API_KEY) {
-      config.apiKey = process.env.ANTHROPIC_API_KEY;
+    if (process.env['ANTHROPIC_API_KEY']) {
+      config.apiKey = process.env['ANTHROPIC_API_KEY'];
     }
 
     // Load from config manager
@@ -178,8 +176,8 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
       this.lastHealthCheck = {
         healthy,
         latency,
-        error: healthy ? undefined : `Status: ${response.status}`,
         timestamp: new Date(),
+        ...(healthy ? {} : { error: `Status: ${response.status}` }),
       };
 
       this.logger.debug('Claude API health check completed', this.lastHealthCheck);
@@ -223,15 +221,17 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
       stream?: boolean;
     },
   ): Promise<ClaudeResponse | AsyncIterable<ClaudeStreamEvent>> {
+    const systemPrompt = options?.systemPrompt || this.config.systemPrompt;
+    const temperature = options?.temperature ?? this.config.temperature;
     const request: ClaudeRequest = {
       model: options?.model || this.config.model || 'claude-3-sonnet-20240229',
       messages,
-      system: options?.systemPrompt || this.config.systemPrompt,
       max_tokens: options?.maxTokens || this.config.maxTokens || 4096,
-      temperature: options?.temperature ?? this.config.temperature,
-      top_p: this.config.topP,
-      top_k: this.config.topK,
       stream: options?.stream || false,
+      ...(systemPrompt ? { system: systemPrompt } : {}),
+      ...(temperature !== undefined ? { temperature } : {}),
+      ...(this.config.topP !== undefined ? { top_p: this.config.topP } : {}),
+      ...(this.config.topK !== undefined ? { top_k: this.config.topK } : {}),
     };
 
     this.logger.debug('Sending Claude API request', {
@@ -586,7 +586,7 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
     try {
       const messages: ClaudeMessage[] = [{ role: 'user', content: prompt }];
       const response = (await this.sendMessage(messages, options)) as ClaudeResponse;
-      return response.content[0].text;
+      return response.content[0]?.text || '';
     } catch (error) {
       if (error instanceof ClaudeAPIError) {
         const errorInfo = getUserFriendlyError(error);
@@ -609,7 +609,7 @@ export class EnhancedClaudeAPIClient extends EventEmitter {
   destroy(): void {
     if (this.healthCheckTimer) {
       clearInterval(this.healthCheckTimer);
-      this.healthCheckTimer = undefined;
+      delete this.healthCheckTimer;
     }
     this.removeAllListeners();
   }
