@@ -1048,9 +1048,9 @@ export class CloudManager extends EventEmitter {
           availableRegions: ['us-east-1', 'us-west-2', 'eu-west-1', 'ap-southeast-1'],
           services: ['ec2', 's3', 'rds', 'lambda', 'ecs', 'eks'],
           endpoints: {
-            ec2: 'https://ec2.amazonaws.com',
-            s3: 'https://s3.amazonaws.com',
-            rds: 'https://rds.amazonaws.com',
+            compute: 'https://ec2.amazonaws.com',
+            storage: 'https://s3.amazonaws.com',
+            sql: 'https://rds.amazonaws.com',
           },
           features: ['auto-scaling', 'load-balancing', 'monitoring', 'backup'],
         },

@@ -156,21 +156,21 @@ export class LoadBalancer extends EventEmitter {
     this.eventBus.on('agent:load-update', (data) => {
       if (hasAgentLoad(data)) {
         const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
-        this.updateAgentLoad(agentId, data.load);
+        this.updateAgentLoad(agentId, { queueDepth: data.load });
       }
     });
 
     this.eventBus.on('task:queued', (data) => {
       if (hasAgentTask(data)) {
         const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
-        this.updateTaskQueue(agentId, data.task, 'add');
+        this.updateTaskQueue(agentId, data.task as any, 'add');
       }
     });
 
     this.eventBus.on('task:started', (data) => {
       if (hasAgentTask(data)) {
         const agentId = typeof data.agentId === 'string' ? data.agentId : data.agentId.id;
-        this.updateTaskQueue(agentId, data.task, 'remove');
+        this.updateTaskQueue(agentId, data.task as any, 'remove');
       }
     });
 
@@ -182,7 +182,7 @@ export class LoadBalancer extends EventEmitter {
       }
     });
 
-    this.eventBus.on('agent:performance-update', (data) => {
+    this.eventBus.on('agent:performance-update', (data: any) => {
       this.updatePerformanceBaseline(data.agentId, data.metrics);
     });
   }

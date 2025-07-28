@@ -289,9 +289,9 @@ export class Orchestrator implements IOrchestrator {
   private initialized = false;
   private shutdownInProgress = false;
   private sessionManager: ISessionManager;
-  private healthCheckInterval?: number;
-  private maintenanceInterval?: number;
-  private metricsInterval?: number;
+  private healthCheckInterval?: any;
+  private maintenanceInterval?: any;
+  private metricsInterval?: any;
   private agents = new Map<string, AgentProfile>();
   private taskQueue: Task[] = [];
   private taskHistory = new Map<string, Task>();
@@ -1269,7 +1269,7 @@ export class Orchestrator implements IOrchestrator {
   /**
    * Update Claude API configuration dynamically
    */
-  updateClaudeConfig(config: Partial<Config['claude']>): void {
+  updateClaudeConfig(config: any): void {
     this.configManager.setClaudeConfig(config);
 
     if (this.claudeClient) {

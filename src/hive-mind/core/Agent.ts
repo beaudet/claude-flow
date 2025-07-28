@@ -31,11 +31,11 @@ export class Agent extends EventEmitter {
   public currentTask: string | null = null;
   public messageCount: number = 0;
 
-  private db: DatabaseManager;
-  private mcpWrapper: MCPToolWrapper;
-  private memory: Map<string, any>;
-  private communicationBuffer: Message[];
-  private lastHeartbeat: number;
+  private db!: DatabaseManager;
+  private mcpWrapper!: MCPToolWrapper;
+  private memory: Map<string, any> = new Map();
+  private communicationBuffer: Message[] = [];
+  private lastHeartbeat: number = Date.now();
   private isActive: boolean = false;
 
   constructor(config: AgentConfig) {
