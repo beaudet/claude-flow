@@ -70,7 +70,7 @@ export class SwarmMemoryManager extends EventEmitter {
 
   constructor(config: Partial<SwarmMemoryConfig> = {}) {
     super();
-    this.logger = new Logger('SwarmMemoryManager');
+    this.logger = new Logger({ level: 'info', format: 'text', destination: 'console' });
     this.config = {
       namespace: 'swarm',
       enableDistribution: true,
@@ -92,11 +92,10 @@ export class SwarmMemoryManager extends EventEmitter {
     this.baseMemory = new MemoryManager(
       {
         backend: 'sqlite',
-        namespace: this.config.namespace,
         cacheSizeMB: 50,
-        syncOnExit: true,
-        maxEntries: this.config.maxEntries,
-        ttlMinutes: 60,
+        syncInterval: 10000,
+        conflictResolution: 'last-write',
+        retentionDays: 30,
       },
       eventBus,
       this.logger,
@@ -175,14 +174,17 @@ export class SwarmMemoryManager extends EventEmitter {
     this.agentMemories.get(agentId)!.add(entryId);
 
     // Store in base memory for persistence
-    await this.baseMemory.remember({
-      namespace: this.config.namespace,
-      key: `entry:${entryId}`,
+    await this.baseMemory.store({
+      id: entryId,
+      agentId,
+      sessionId: `swarm-${Date.now()}`,
+      type: 'insight',
       content: JSON.stringify(entry),
+      context: { swarmType: entry.type },
+      timestamp: entry.timestamp,
+      tags: entry.metadata.tags || [],
+      version: 1,
       metadata: {
-        type: 'swarm-memory',
-        agentId,
-        entryType: type,
         shareLevel: entry.metadata.shareLevel,
       },
     });
@@ -272,11 +274,7 @@ export class SwarmMemoryManager extends EventEmitter {
       id: generateId('mem'),
       metadata: {
         ...entry.metadata,
-        originalId: entryId,
-        sharedFrom: entry.agentId,
-        sharedTo: targetAgentId,
-        sharedAt: new Date(),
-      },
+      } as any,
     };
 
     this.entries.set(sharedEntry.id, sharedEntry);

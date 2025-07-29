@@ -247,7 +247,7 @@ export class AnthropicProvider extends BaseProvider {
     }
   }
 
-  async listModels(): Promise<LLMModel[]> {
+  override async listModels(): Promise<LLMModel[]> {
     return this.capabilities.supportedModels;
   }
 
@@ -450,7 +450,7 @@ export class AnthropicProvider extends BaseProvider {
     this.maxProQuota.quotaReset = new Date(now.getTime() + 5 * 60 * 60 * 1000); // 5 hours
   }
 
-  destroy(): void {
+  override destroy(): void {
     super.destroy();
     this.claudeClient?.destroy();
   }

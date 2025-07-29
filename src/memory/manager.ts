@@ -426,7 +426,7 @@ export class MemoryManager implements IMemoryManager {
       } catch (error) {
         this.logger.error('Cache sync error', error);
       }
-    }, this.config.syncInterval);
+    }, this.config.syncInterval) as any;
   }
 
   private async syncCache(): Promise<void> {

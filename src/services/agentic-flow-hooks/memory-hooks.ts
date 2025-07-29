@@ -11,6 +11,7 @@ import type {
   HookHandlerResult,
   MemoryHookPayload,
   SideEffect,
+  HookPayload,
 } from './types.js';
 
 // ===== Pre-Memory Store Hook =====
@@ -20,10 +21,17 @@ export const preMemoryStoreHook = {
   type: 'pre-memory-store' as const,
   priority: 100,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { namespace, key, value, ttl, provider } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { namespace, key, value, ttl, provider } = payload as {
+      namespace: string;
+      key: string;
+      value: any;
+      ttl?: number;
+      provider?: string;
+    };
     
     const sideEffects: SideEffect[] = [];
     
@@ -98,10 +106,17 @@ export const postMemoryStoreHook = {
   type: 'post-memory-store' as const,
   priority: 100,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { namespace, key, value, crossProvider, syncTargets } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { namespace, key, value, crossProvider, syncTargets } = payload as {
+      namespace: string;
+      key: string;
+      value: any;
+      crossProvider?: boolean;
+      syncTargets?: string[];
+    };
     
     const sideEffects: SideEffect[] = [];
     
@@ -162,10 +177,14 @@ export const preMemoryRetrieveHook = {
   type: 'pre-memory-retrieve' as const,
   priority: 100,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { namespace, key } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { namespace, key } = payload as {
+      namespace: string;
+      key: string;
+    };
     
     // Check local cache first
     const cached = await checkLocalCache(namespace, key!, context);
@@ -214,10 +233,15 @@ export const postMemoryRetrieveHook = {
   type: 'post-memory-retrieve' as const,
   priority: 100,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { namespace, key, value } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { namespace, key, value } = payload as {
+      namespace: string;
+      key: string;
+      value: any;
+    };
     
     if (!value) {
       return { continue: true };
@@ -272,17 +296,23 @@ export const memorySyncHook = {
   type: 'memory-sync' as const,
   priority: 100,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { operation, namespace, provider, syncTargets } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { operation, namespace, provider, syncTargets } = payload as {
+      operation: string;
+      namespace: string;
+      provider?: string;
+      syncTargets?: string[];
+    };
     
     const sideEffects: SideEffect[] = [];
     
     switch (operation) {
       case 'sync':
         // Bidirectional sync
-        const changes = await detectMemoryChanges(namespace, provider, context);
+        const changes = await detectMemoryChanges(namespace, provider ?? 'default', context);
         
         if (changes.length > 0) {
           sideEffects.push({
@@ -370,10 +400,13 @@ export const memoryPersistHook = {
   type: 'memory-persist' as const,
   priority: 90,
   handler: async (
-    payload: MemoryHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { namespace } = payload;
+    if (!('namespace' in payload)) return { continue: true };
+    const { namespace } = payload as {
+      namespace: string;
+    };
     
     // Create full memory backup
     const backup = await createFullBackup(namespace, context);

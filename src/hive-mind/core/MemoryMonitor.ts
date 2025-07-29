@@ -319,8 +319,8 @@ export class MemoryMonitor extends EventEmitter {
    * Analyze overall system health
    */
   private async analyzeHealth(): Promise<void> {
-    const memoryHealth = await this.memory.healthCheck();
-    const dbHealth = await this.db.healthCheck();
+    const memoryHealth = await (this.memory as any).healthCheck();
+    const dbHealth = await (this.db as any).healthCheck();
     const analytics = this.memory.getAdvancedAnalytics();
 
     const healthReport: MemoryHealthReport = {
@@ -617,8 +617,8 @@ export class MemoryMonitor extends EventEmitter {
    * Get detailed memory report
    */
   async generateDetailedReport(): Promise<MemoryHealthReport> {
-    const memoryHealth = await this.memory.healthCheck();
-    const dbHealth = await this.db.healthCheck();
+    const memoryHealth = await (this.memory as any).healthCheck();
+    const dbHealth = await (this.db as any).healthCheck();
     const analytics = this.memory.getAdvancedAnalytics();
 
     return {

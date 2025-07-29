@@ -13,6 +13,7 @@ import type {
   LLMMetrics,
   Pattern,
   SideEffect,
+  HookPayload,
 } from './types.js';
 
 // ===== Pre-LLM Call Hook =====
@@ -22,10 +23,16 @@ export const preLLMCallHook = {
   type: 'pre-llm-call' as const,
   priority: 100,
   handler: async (
-    payload: LLMHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { provider, model, operation, request } = payload;
+    if (!('model' in payload)) return { continue: true };
+    const { provider, model, operation, request } = payload as {
+      provider: string;
+      model: string;
+      operation: string;
+      request: any;
+    };
     
     // Check memory for similar requests
     const cacheKey = generateCacheKey(provider, model, request);
@@ -106,10 +113,18 @@ export const postLLMCallHook = {
   type: 'post-llm-call' as const,
   priority: 100,
   handler: async (
-    payload: LLMHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { provider, model, request, response, metrics } = payload;
+    if (!('model' in payload)) return { continue: true };
+    const { provider, model, request, response, metrics, operation } = payload as {
+      provider: string;
+      model: string;
+      request: any;
+      response: any;
+      metrics: any;
+      operation: string;
+    };
     
     if (!response || !metrics) {
       return { continue: true };
@@ -129,7 +144,7 @@ export const postLLMCallHook = {
           metrics,
           timestamp: Date.now(),
         },
-        ttl: determineCacheTTL(operation, response),
+        ttl: determineCacheTTL(operation || 'default', response),
       },
     });
     
@@ -203,10 +218,15 @@ export const llmErrorHook = {
   type: 'llm-error' as const,
   priority: 100,
   handler: async (
-    payload: LLMHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { provider, model, error } = payload;
+    if (!('model' in payload)) return { continue: true };
+    const { provider, model, error } = payload as {
+      provider: string;
+      model: string;
+      error: any;
+    };
     
     if (!error) {
       return { continue: true };
@@ -282,10 +302,15 @@ export const llmRetryHook = {
   type: 'llm-retry' as const,
   priority: 90,
   handler: async (
-    payload: LLMHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { provider, model, metrics } = payload;
+    if (!('model' in payload)) return { continue: true };
+    const { provider, model, metrics } = payload as {
+      provider: string;
+      model: string;
+      metrics: any;
+    };
     const retryCount = metrics?.retryCount || 0;
     
     // Adjust request parameters for retry

@@ -15,6 +15,7 @@ import type {
   Prediction,
   Adaptation,
   SideEffect,
+  HookPayload,
 } from './types.js';
 
 // ===== Pre-Neural Train Hook =====
@@ -24,10 +25,15 @@ export const preNeuralTrainHook = {
   type: 'pre-neural-train' as const,
   priority: 100,
   handler: async (
-    payload: NeuralHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { operation, modelId, trainingData } = payload;
+    if (!('operation' in payload)) return { continue: true };
+    const { operation, modelId, trainingData } = payload as {
+      operation: string;
+      modelId: string;
+      trainingData: any;
+    };
     
     if (operation !== 'train' || !trainingData) {
       return { continue: true };
@@ -103,10 +109,15 @@ export const postNeuralTrainHook = {
   type: 'post-neural-train' as const,
   priority: 100,
   handler: async (
-    payload: NeuralHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { modelId, accuracy, trainingData } = payload;
+    if (!('modelId' in payload)) return { continue: true };
+    const { modelId, accuracy, trainingData } = payload as {
+      modelId: string;
+      accuracy?: number;
+      trainingData?: any;
+    };
     
     const sideEffects: SideEffect[] = [];
     
@@ -131,10 +142,10 @@ export const postNeuralTrainHook = {
     });
     
     // Update model performance history
-    await updateModelPerformance(modelId, accuracy, context);
+    await updateModelPerformance(modelId, accuracy ?? 0, context);
     
     // Check if model should be promoted
-    const shouldPromote = await evaluateModelPromotion(modelId, accuracy, context);
+    const shouldPromote = await evaluateModelPromotion(modelId, accuracy ?? 0, context);
     if (shouldPromote) {
       sideEffects.push({
         type: 'notification',
@@ -170,10 +181,13 @@ export const neuralPatternDetectedHook = {
   type: 'neural-pattern-detected' as const,
   priority: 90,
   handler: async (
-    payload: NeuralHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { patterns } = payload;
+    if (!('patterns' in payload)) return { continue: true };
+    const { patterns } = payload as {
+      patterns: any[];
+    };
     
     if (!patterns || patterns.length === 0) {
       return { continue: true };
@@ -245,10 +259,14 @@ export const neuralPredictionHook = {
   type: 'neural-prediction' as const,
   priority: 100,
   handler: async (
-    payload: NeuralHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { prediction, modelId } = payload;
+    if (!('prediction' in payload)) return { continue: true };
+    const { prediction, modelId } = payload as {
+      prediction: any;
+      modelId: string;
+    };
     
     if (!prediction) {
       return { continue: true };
@@ -327,10 +345,14 @@ export const neuralAdaptationHook = {
   type: 'neural-adaptation' as const,
   priority: 90,
   handler: async (
-    payload: NeuralHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { adaptations, modelId } = payload;
+    if (!('adaptations' in payload)) return { continue: true };
+    const { adaptations, modelId } = payload as {
+      adaptations: any;
+      modelId: string;
+    };
     
     if (!adaptations || adaptations.length === 0) {
       return { continue: true };
@@ -339,7 +361,7 @@ export const neuralAdaptationHook = {
     const sideEffects: SideEffect[] = [];
     
     // Validate adaptations
-    const validAdaptations = adaptations.filter(a => 
+    const validAdaptations = adaptations.filter((a: any) => 
       validateAdaptation(a, modelId, context)
     );
     
@@ -348,7 +370,7 @@ export const neuralAdaptationHook = {
     }
     
     // Apply adaptations in order of impact
-    const sortedAdaptations = validAdaptations.sort((a, b) => 
+    const sortedAdaptations = validAdaptations.sort((a: any, b: any) => 
       Math.abs(b.impact) - Math.abs(a.impact)
     );
     
@@ -388,7 +410,7 @@ export const neuralAdaptationHook = {
     }
     
     // Trigger retraining if significant adaptations
-    const totalImpact = sortedAdaptations.reduce((sum, a) => 
+    const totalImpact = sortedAdaptations.reduce((sum: number, a: any) => 
       sum + Math.abs(a.impact), 0
     );
     

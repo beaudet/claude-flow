@@ -32,10 +32,7 @@ export class MCPIntegration {
         {
           name: 'claude-flow-wrapper-client',
           version: '1.0.0',
-        },
-        {
-          capabilities: {},
-        },
+        }
       );
 
       await this.claudeCodeClient.connect(transport);
@@ -64,7 +61,7 @@ export function injectClaudeCodeClient(wrapper: ClaudeCodeMCPWrapper, client: Cl
   // Override the forwardToClaudeCode method
   (wrapper as any).forwardToClaudeCode = async function (toolName: string, args: any) {
     try {
-      const result = await client.callTool(toolName, args);
+      const result = await (client as any).callTool?.(toolName, args) || { content: [{ type: 'text', text: 'Tool not available' }] };
       return result;
     } catch (error) {
       return {

@@ -15,6 +15,7 @@ import {
   AgentCapability,
   Task,
   Message,
+  MessageType,
   AgentConfig,
   ExecutionResult,
 } from '../types.js';
@@ -256,7 +257,7 @@ export class Agent extends EventEmitter {
    */
   protected async performValidation(task: any): Promise<any> {
     // Validate execution results
-    const validation = {
+    const validation: any = {
       phase: 'validation',
       checks: [],
       passed: true,
@@ -270,7 +271,7 @@ export class Agent extends EventEmitter {
     ];
 
     validation.checks = checks;
-    validation.passed = checks.every((c) => c.passed);
+    validation.passed = checks.every((c: any) => c.passed);
 
     return validation;
   }
@@ -290,7 +291,7 @@ export class Agent extends EventEmitter {
   /**
    * Send a message to another agent or broadcast
    */
-  async sendMessage(toAgentId: string | null, messageType: string, content: any): Promise<void> {
+  async sendMessage(toAgentId: string | null, messageType: MessageType, content: any): Promise<void> {
     const message: Message = {
       id: uuidv4(),
       fromAgentId: this.id,
@@ -437,7 +438,7 @@ export class Agent extends EventEmitter {
     this.status = 'idle';
 
     // Notify swarm of failure
-    await this.sendMessage(null, 'task_failed', {
+    await this.sendMessage(null, 'notification', {
       taskId,
       agentId: this.id,
       error: error.message,
@@ -609,7 +610,7 @@ export class Agent extends EventEmitter {
     if (patterns.suggestedCapabilities) {
       // Update capabilities based on learning
       const newCapabilities = patterns.suggestedCapabilities.filter(
-        (cap: string) => !this.capabilities.includes(cap),
+        (cap: AgentCapability) => !this.capabilities.includes(cap),
       );
 
       if (newCapabilities.length > 0) {

@@ -2,13 +2,8 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
   Tool,
   CallToolResult,
-  TextContent,
-  ImageContent,
-  EmbeddedResource,
 } from '@modelcontextprotocol/sdk/types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -55,17 +50,7 @@ export class ClaudeCodeMCPWrapper {
   private claudeCodeMCP: any; // Reference to Claude Code MCP client
 
   constructor() {
-    this.server = new Server(
-      {
-        name: 'claude-flow-wrapper',
-        version: '1.0.0',
-      },
-      {
-        capabilities: {
-          tools: {},
-        },
-      },
-    );
+    this.server = new Server();
 
     this.setupHandlers();
     this.loadSparcModes();
@@ -83,11 +68,11 @@ export class ClaudeCodeMCPWrapper {
   }
 
   private setupHandlers() {
-    this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
+    this.server.setRequestHandler('tools/list' as any, async () => ({
       tools: await this.getTools(),
     }));
 
-    this.server.setRequestHandler(CallToolRequestSchema, async (request) =>
+    this.server.setRequestHandler('tools/call' as any, async (request: any) =>
       this.handleToolCall(request.params.name, request.params.arguments || {}),
     );
   }
@@ -257,7 +242,7 @@ export class ClaudeCodeMCPWrapper {
         content: [
           {
             type: 'text',
-            text: result.output,
+            text: (result as any).output,
           },
         ],
       };
@@ -777,7 +762,7 @@ Use the appropriate tools for each phase and maintain progress in TodoWrite.`;
         if (mode) {
           // Execute using the existing SPARC execution logic
           try {
-            const result = await executeSparcMode(
+            const result = await (global as any).executeSparcMode(
               modeName,
               args.prompt || '',
               mode.tools || [],
@@ -788,7 +773,7 @@ Use the appropriate tools for each phase and maintain progress in TodoWrite.`;
               content: [
                 {
                   type: 'text',
-                  text: result.output,
+                  text: (result as any).output,
                 },
               ],
             };

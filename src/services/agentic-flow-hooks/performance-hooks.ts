@@ -14,6 +14,7 @@ import type {
   BottleneckAnalysis,
   OptimizationSuggestion,
   SideEffect,
+  HookPayload,
 } from './types.js';
 
 // ===== Performance Metric Hook =====
@@ -23,10 +24,10 @@ export const performanceMetricHook = {
   type: 'performance-metric' as const,
   priority: 100,
   handler: async (
-    payload: PerformanceHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { metric, value, unit, threshold } = payload;
+    const perfPayload = payload as PerformanceHookPayload; if (!("metric" in payload)) return { continue: true }; const { metric, value, unit, threshold } = payload;
     
     const sideEffects: SideEffect[] = [];
     
@@ -113,10 +114,11 @@ export const performanceBottleneckHook = {
   type: 'performance-bottleneck' as const,
   priority: 90,
   handler: async (
-    payload: PerformanceHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { bottleneck } = payload;
+    if (!('bottleneck' in payload)) return { continue: true };
+    const { bottleneck } = payload as PerformanceHookPayload;
     
     if (!bottleneck) {
       return { continue: true };
@@ -210,10 +212,11 @@ export const performanceOptimizationHook = {
   type: 'performance-optimization' as const,
   priority: 80,
   handler: async (
-    payload: PerformanceHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { optimization } = payload;
+    if (!('optimization' in payload)) return { continue: true };
+    const { optimization } = payload as PerformanceHookPayload;
     
     if (!optimization) {
       return { continue: true };
@@ -300,10 +303,10 @@ export const performanceThresholdHook = {
   type: 'performance-threshold' as const,
   priority: 95,
   handler: async (
-    payload: PerformanceHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { metric, value, threshold } = payload;
+    const perfPayload = payload as PerformanceHookPayload; if (!("metric" in payload)) return { continue: true }; const { metric, value, threshold } = payload;
     
     if (threshold === undefined) {
       return { continue: true };

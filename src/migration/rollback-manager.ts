@@ -156,7 +156,7 @@ export class RollbackManager {
     let selectedBackup: MigrationBackup;
 
     if (backupId) {
-      selectedBackup = backups.find((b) => b.metadata.backupId === backupId);
+      selectedBackup = backups.find((b) => b.metadata.backupId === backupId)!;
       if (!selectedBackup) {
         throw new Error(`Backup not found: ${backupId}`);
       }
@@ -170,7 +170,7 @@ export class RollbackManager {
 
     // Confirm rollback
     if (interactive) {
-      const confirm = await inquirer.prompt([
+      const confirm = await (inquirer as any).prompt([
         {
           type: 'confirm',
           name: 'proceed',
@@ -221,7 +221,7 @@ export class RollbackManager {
       short: backup.metadata.backupId,
     }));
 
-    const answer = await inquirer.prompt([
+    const answer = await (inquirer as any).prompt([
       {
         type: 'list',
         name: 'backup',

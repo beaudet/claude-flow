@@ -3,24 +3,25 @@
  * Exports all recovery components for connection stability
  */
 
-export { RecoveryManager, RecoveryConfig, RecoveryStatus } from './recovery-manager.js';
-export {
+export { RecoveryManager } from './recovery-manager.js';
+export type { RecoveryConfig, RecoveryStatus } from './recovery-manager.js';
+export type {
   ConnectionHealthMonitor,
   HealthStatus,
   HealthMonitorConfig,
 } from './connection-health-monitor.js';
-export {
+export type {
   ReconnectionManager,
   ReconnectionConfig,
   ReconnectionState,
 } from './reconnection-manager.js';
-export {
+export type {
   FallbackCoordinator,
   FallbackOperation,
   FallbackConfig,
   FallbackState,
 } from './fallback-coordinator.js';
-export {
+export type {
   ConnectionStateManager,
   ConnectionState,
   ConnectionEvent,

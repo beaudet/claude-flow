@@ -52,7 +52,7 @@ export class SessionManager implements ISessionManager {
     // Start cleanup timer
     this.cleanupInterval = setInterval(() => {
       this.cleanupExpiredSessions();
-    }, 60000); // Clean up every minute
+    }, 60000) as any; // Clean up every minute
   }
 
   createSession(transport: 'stdio' | 'http' | 'websocket'): MCPSession {

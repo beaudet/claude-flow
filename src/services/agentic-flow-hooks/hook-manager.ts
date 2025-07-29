@@ -539,7 +539,25 @@ export class AgenticHookManager extends EventEmitter implements HookRegistry {
 
   private processLogSideEffect(effect: SideEffect): void {
     const { level = 'info', message, data } = effect.data;
-    logger[level as keyof Logger](message, data);
+    const logLevel = level as 'debug' | 'info' | 'warn' | 'error';
+    
+    switch (logLevel) {
+      case 'debug':
+        logger.debug(message, data);
+        break;
+      case 'info':
+        logger.info(message, data);
+        break;
+      case 'warn':
+        logger.warn(message, data);
+        break;
+      case 'error':
+        logger.error(message, data);
+        break;
+      default:
+        logger.info(message, data);
+        break;
+    }
   }
 
   private async handleHookError(

@@ -221,8 +221,8 @@ export class DiagnosticManager {
 
       // Get component metrics
       let componentMetrics: Record<string, any> = {};
-      if (typeof component.getMetrics === 'function') {
-        componentMetrics = await component.getMetrics();
+      if (typeof (component as any).getMetrics === 'function') {
+        componentMetrics = await (component as any).getMetrics();
       }
 
       // Get last error
@@ -662,13 +662,13 @@ RECOMMENDATIONS
 
   private setupEventHandlers(): void {
     // Track performance metrics
-    this.eventBus.on('performance:metric', (metric) => {
-      if (!this.performanceHistory.has(metric.name)) {
-        this.performanceHistory.set(metric.name, []);
+    this.eventBus.on('performance:metric', (metric: any) => {
+      if (!this.performanceHistory.has((metric as any).name)) {
+        this.performanceHistory.set((metric as any).name, []);
       }
 
-      const history = this.performanceHistory.get(metric.name)!;
-      history.push(metric.value);
+      const history = this.performanceHistory.get((metric as any).name)!;
+      history.push((metric as any).value);
 
       // Keep only last 100 measurements
       if (history.length > 100) {
@@ -677,8 +677,8 @@ RECOMMENDATIONS
     });
 
     // Track errors
-    this.eventBus.on('system:error', (error) => {
-      const component = error.component || 'system';
+    this.eventBus.on('system:error', (error: any) => {
+      const component = (error as any).component || 'system';
 
       if (!this.errorHistory.has(component)) {
         this.errorHistory.set(component, []);
@@ -686,9 +686,9 @@ RECOMMENDATIONS
 
       const history = this.errorHistory.get(component)!;
       history.push({
-        message: error.message || error.error,
+        message: (error as any).message || (error as any).error,
         timestamp: Date.now(),
-        stack: error.stack,
+        stack: (error as any).stack,
       });
 
       // Keep only last 50 errors per component

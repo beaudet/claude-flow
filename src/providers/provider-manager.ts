@@ -294,8 +294,8 @@ export class ProviderManager extends EventEmitter {
         const estimate = await provider.estimateCost(request);
         
         if (estimate.estimatedCost.total < bestCost &&
-            (!request.costConstraints?.maxCostPerRequest || 
-             estimate.estimatedCost.total <= request.costConstraints.maxCostPerRequest)) {
+            (!request.costConstraints?.maxCost || 
+             estimate.estimatedCost.total <= request.costConstraints.maxCost)) {
           bestCost = estimate.estimatedCost.total;
           bestProvider = provider;
         }
@@ -521,7 +521,7 @@ export class ProviderManager extends EventEmitter {
     // Cleanup old cache entries
     if (this.cache.size > 1000) {
       const oldestKey = this.cache.keys().next().value;
-      this.cache.delete(oldestKey);
+      this.cache.delete(oldestKey || 'unknown');
     }
   }
 

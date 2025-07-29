@@ -14,7 +14,7 @@ import { join } from 'path';
 export interface RuvSwarmToolContext extends MCPContext {
   workingDirectory?: string;
   swarmId?: string;
-  sessionId?: string;
+  sessionId: string; // Required to match MCPContext
 }
 
 /**
@@ -591,6 +591,7 @@ export async function initializeRuvSwarmIntegration(
   const context: RuvSwarmToolContext = {
     workingDirectory,
     sessionId: `claude-flow-${Date.now()}`,
+    logger: logger || console as any,
   };
 
   logger?.info('Initializing ruv-swarm integration', { workingDirectory });

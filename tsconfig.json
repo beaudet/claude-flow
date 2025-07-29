@@ -35,24 +35,7 @@
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": [
-    "src/api/**/*.ts",
-    "src/cli/agents/analyst.ts",
-    "src/config/**/*.ts",
-    "src/coordination/advanced-scheduler.ts",
-    "src/coordination/advanced-task-executor.ts",
-    "src/coordination/background-executor.ts",
-    "src/coordination/hive-protocol.ts",
-    "src/coordination/load-balancer.ts",
-    "src/coordination/metrics.ts",
-    "src/coordination/scheduler.ts",
-    "src/coordination/swarm-coordinator.ts",
-    "src/coordination/swarm-monitor.ts",
-    "src/coordination/work-stealing.ts",
-    "src/core/**/*.ts",
-    "src/memory/**/*.ts",
-    "src/mcp/**/*.ts",
-    "src/providers/**/*.ts",
-    "src/utils/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

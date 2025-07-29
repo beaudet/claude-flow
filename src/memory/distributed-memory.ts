@@ -620,9 +620,9 @@ export class DistributedMemorySystem extends EventEmitter {
   /**
    * Query entries by type
    */
-  async queryByType(type: string, namespace?: string): Promise<MemoryEntry[]> {
+  async queryByType(type: MemoryEntry['type'], namespace?: string): Promise<MemoryEntry[]> {
     return this.query({
-      filter: { type },
+      type: type as any,
       namespace,
     });
   }

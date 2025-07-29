@@ -18,6 +18,7 @@ import {
   HiveMindConfig,
   SwarmTopology,
   AgentType,
+  AgentCapability,
   Task,
   TaskPriority,
   TaskStrategy,
@@ -27,15 +28,15 @@ import {
 } from '../types.js';
 
 export class HiveMind extends EventEmitter {
-  private id: string;
+  public id: string;
   private config: HiveMindConfig;
-  private queen: Queen;
+  private queen!: Queen;
   private agents: Map<string, Agent>;
-  private memory: Memory;
-  private communication: Communication;
-  private orchestrator: SwarmOrchestrator;
-  private consensus: ConsensusEngine;
-  private db: DatabaseManager;
+  private memory!: Memory;
+  private communication!: Communication;
+  private orchestrator!: SwarmOrchestrator;
+  private consensus!: ConsensusEngine;
+  private db!: DatabaseManager;
   private started: boolean = false;
   private startTime: number;
 
@@ -447,8 +448,8 @@ export class HiveMind extends EventEmitter {
 
   // Private helper methods
 
-  private getDefaultCapabilities(type: AgentType): string[] {
-    const capabilityMap: Record<AgentType, string[]> = {
+  private getDefaultCapabilities(type: AgentType): AgentCapability[] {
+    const capabilityMap: Record<AgentType, AgentCapability[]> = {
       coordinator: ['task_management', 'resource_allocation', 'consensus_building'],
       researcher: ['information_gathering', 'pattern_recognition', 'knowledge_synthesis'],
       coder: ['code_generation', 'refactoring', 'debugging'],
@@ -472,7 +473,7 @@ export class HiveMind extends EventEmitter {
       const requiredCapabilities = JSON.parse(task.required_capabilities || '[]');
 
       // Check if agent has required capabilities
-      if (requiredCapabilities.every((cap: string) => agent.capabilities.includes(cap))) {
+      if (requiredCapabilities.every((cap: AgentCapability) => agent.capabilities.includes(cap))) {
         await this.orchestrator.assignTaskToAgent(task.id, agent.id);
         break; // Only assign one task at a time
       }
@@ -490,7 +491,7 @@ export class HiveMind extends EventEmitter {
     };
   }
 
-  private determineHealth(agents: Agent[], tasks: any[], performance: any): string {
+  private determineHealth(agents: Agent[], tasks: any[], performance: any): 'healthy' | 'degraded' | 'critical' | 'unknown' {
     if (agents.length === 0) return 'critical';
 
     const busyAgents = agents.filter((a) => a.status === 'busy').length;

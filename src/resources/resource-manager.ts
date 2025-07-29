@@ -5,6 +5,7 @@
 import { EventEmitter } from 'node:events';
 import type { ILogger } from '../core/logger.js';
 import type { IEventBus } from '../core/event-bus.js';
+import type { ResourceUsageUpdatePayload } from '../types/event-payloads.js';
 import type { AgentId, TaskId } from '../swarm/types.js';
 import { generateId } from '../utils/helpers.js';
 
@@ -397,8 +398,9 @@ export class ResourceManager extends EventEmitter {
       this.handleResourceRelease(data);
     });
 
-    this.eventBus.on('resource:usage-update', (data) => {
-      this.updateResourceUsage(data.resourceId, data.usage);
+    this.eventBus.on('resource:usage-update', (data: unknown) => {
+      const payload = data as { resourceId: string; usage: ResourceUsage };
+      this.updateResourceUsage(payload.resourceId, payload.usage);
     });
 
     this.eventBus.on('resource:failure', (data) => {

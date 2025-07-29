@@ -16,12 +16,13 @@ import {
   ExecutionPlan,
   OrchestrationResult,
   TaskAssignment,
+  AgentCapability,
 } from '../types.js';
 
 export class SwarmOrchestrator extends EventEmitter {
   private hiveMind: HiveMind;
-  private db: DatabaseManager;
-  private mcpWrapper: MCPToolWrapper;
+  private db!: DatabaseManager;
+  private mcpWrapper!: MCPToolWrapper;
   private executionPlans: Map<string, ExecutionPlan>;
   private taskAssignments: Map<string, TaskAssignment[]>;
   private activeExecutions: Map<string, any>;
@@ -90,7 +91,7 @@ export class SwarmOrchestrator extends EventEmitter {
 
     // Create assignments for each phase
     const phaseAssignments = await Promise.all(
-      phases.map((phase) => this.createPhaseAssignments(task, phase, analysis)),
+      phases.map((phase: any) => this.createPhaseAssignments(task, phase, analysis)),
     );
 
     return {
@@ -134,7 +135,7 @@ export class SwarmOrchestrator extends EventEmitter {
       await this.completeTask(task, execution);
     } catch (error) {
       execution.status = 'failed';
-      execution.error = error;
+      (execution as any).error = error;
       await this.handleTaskFailure(task, execution, error);
     } finally {
       this.activeExecutions.delete(task.id);
@@ -150,7 +151,7 @@ export class SwarmOrchestrator extends EventEmitter {
     );
 
     const results = await Promise.all(
-      parallelPhases.map((phase) => this.executePhase(task, phase, plan, execution)),
+      parallelPhases.map((phase: any) => this.executePhase(task, phase, plan, execution)),
     );
 
     execution.phaseResults = results;
@@ -502,7 +503,7 @@ export class SwarmOrchestrator extends EventEmitter {
     const suitableAgents = agents.filter(
       (agent) =>
         agent.status === 'idle' &&
-        requiredCapabilities.every((cap) => agent.capabilities.includes(cap)),
+        requiredCapabilities.every((cap: any) => agent.capabilities.includes(cap)),
     );
 
     if (suitableAgents.length === 0) {
@@ -578,13 +579,13 @@ export class SwarmOrchestrator extends EventEmitter {
    * Summarize phase results
    */
   private summarizeResults(results: any[]): any {
-    const successful = results.filter((r) => r.success).length;
+    const successful = results.filter((r: any) => r.success).length;
     const total = results.length;
 
     return {
       successRate: total > 0 ? successful / total : 0,
       totalExecutions: total,
-      aggregatedData: results.map((r) => r.data).filter(Boolean),
+      aggregatedData: results.map((r: any) => r.data).filter(Boolean),
     };
   }
 
@@ -672,7 +673,7 @@ export class SwarmOrchestrator extends EventEmitter {
   private createExecutionSummary(execution: any): any {
     const phaseCount = execution.phaseResults.length;
     const successfulPhases = execution.phaseResults.filter(
-      (r) => r.summary?.successRate > 0.5,
+      (r: any) => r.summary?.successRate > 0.5,
     ).length;
 
     return {

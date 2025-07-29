@@ -58,8 +58,8 @@ export abstract class BaseProvider extends EventEmitter implements ILLMProvider 
     this.logger = options.logger;
     this.config = options.config;
     
-    // Initialize circuit breaker
-    this.circuitBreaker = circuitBreaker(`llm-${this.name}`, {
+    // Initialize circuit breaker (name will be set by subclass)
+    this.circuitBreaker = circuitBreaker(`llm-${options.config.provider}`, {
       threshold: options.circuitBreakerOptions?.threshold || 5,
       timeout: options.circuitBreakerOptions?.timeout || 60000,
       resetTimeout: options.circuitBreakerOptions?.resetTimeout || 300000,
@@ -370,6 +370,19 @@ export abstract class BaseProvider extends EventEmitter implements ILLMProvider 
   /**
    * Get usage statistics
    */
+  getUsageStats(): Record<LLMModel, { requests: number; tokens: number; cost: number; }> {
+    // Return empty stats for all supported models
+    const stats: Record<string, { requests: number; tokens: number; cost: number; }> = {};
+    
+    if (this.capabilities?.supportedModels) {
+      for (const model of this.capabilities.supportedModels) {
+        stats[model] = { requests: 0, tokens: 0, cost: 0 };
+      }
+    }
+    
+    return stats as Record<LLMModel, { requests: number; tokens: number; cost: number; }>;
+  }
+
   async getUsage(period: UsagePeriod = 'day'): Promise<UsageStats> {
     const now = new Date();
     const start = this.getStartDate(now, period);
@@ -392,7 +405,7 @@ export abstract class BaseProvider extends EventEmitter implements ILLMProvider 
       },
       errors: this.errorCount,
       averageLatency: this.calculateAverageLatency(),
-      modelBreakdown: {}, // Would need to track per model
+      modelBreakdown: this.getUsageStats(),
     };
   }
 
@@ -464,7 +477,7 @@ export abstract class BaseProvider extends EventEmitter implements ILLMProvider 
     // Clean up old metrics (keep last 1000)
     if (this.requestMetrics.size > 1000) {
       const oldestKey = this.requestMetrics.keys().next().value;
-      this.requestMetrics.delete(oldestKey);
+      this.requestMetrics.delete(oldestKey || 'unknown');
     }
   }
 

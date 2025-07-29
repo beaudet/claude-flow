@@ -14,6 +14,7 @@ import type {
   Learning,
   SideEffect,
   Pattern,
+  HookPayload,
 } from './types.js';
 
 // ===== Workflow Start Hook =====
@@ -23,10 +24,14 @@ export const workflowStartHook = {
   type: 'workflow-start' as const,
   priority: 100,
   handler: async (
-    payload: WorkflowHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { workflowId, state } = payload;
+    if (!('workflowId' in payload)) return { continue: true };
+    const { workflowId, state } = payload as {
+      workflowId: string;
+      state: any;
+    };
     
     const sideEffects: SideEffect[] = [];
     
@@ -88,10 +93,15 @@ export const workflowStepHook = {
   type: 'workflow-step' as const,
   priority: 100,
   handler: async (
-    payload: WorkflowHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { workflowId, step, state } = payload;
+    if (!('workflowId' in payload)) return { continue: true };
+    const { workflowId, step, state } = payload as {
+      workflowId: string;
+      step: any;
+      state: any;
+    };
     
     if (!step) {
       return { continue: true };
@@ -166,10 +176,15 @@ export const workflowDecisionHook = {
   type: 'workflow-decision' as const,
   priority: 90,
   handler: async (
-    payload: WorkflowHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { workflowId, decision, state } = payload;
+    if (!('workflowId' in payload)) return { continue: true };
+    const { workflowId, decision, state } = payload as {
+      workflowId: string;
+      decision: any;
+      state: any;
+    };
     
     if (!decision) {
       return { continue: true };
@@ -268,10 +283,15 @@ export const workflowCompleteHook = {
   type: 'workflow-complete' as const,
   priority: 100,
   handler: async (
-    payload: WorkflowHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { workflowId, state, metrics } = payload;
+    if (!('workflowId' in payload)) return { continue: true };
+    const { workflowId, state, metrics } = payload as {
+      workflowId: string;
+      state: any;
+      metrics: any;
+    };
     
     const sideEffects: SideEffect[] = [];
     
@@ -384,10 +404,15 @@ export const workflowErrorHook = {
   type: 'workflow-error' as const,
   priority: 95,
   handler: async (
-    payload: WorkflowHookPayload,
+    payload: HookPayload,
     context: AgenticHookContext
   ): Promise<HookHandlerResult> => {
-    const { workflowId, error, state } = payload;
+    if (!('workflowId' in payload)) return { continue: true };
+    const { workflowId, error, state } = payload as {
+      workflowId: string;
+      error: any;
+      state: any;
+    };
     
     if (!error) {
       return { continue: true };
@@ -877,8 +902,8 @@ async function analyzeErrorPattern(
   
   if (errorHistory.length > 5) {
     pattern.confidence = 0.9;
-    pattern.context.recurring = true;
-    pattern.context.occurrences = errorHistory.length;
+    (pattern.context as any).recurring = true;
+    (pattern.context as any).occurrences = errorHistory.length;
   }
   
   return pattern;

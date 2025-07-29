@@ -596,6 +596,7 @@ export class MCPServer implements IMCPServer {
             workingDirectory,
             sessionId: `mcp-session-${Date.now()}`,
             swarmId: process.env.CLAUDE_SWARM_ID || `mcp-swarm-${Date.now()}`,
+            logger: this.logger,
           };
 
           return await originalHandler(input, ruvSwarmContext);
@@ -613,7 +614,7 @@ export class MCPServer implements IMCPServer {
     }
   }
 
-  private errorToMCPError(error): MCPError {
+  private errorToMCPError(error: any): MCPError {
     if (error instanceof MCPMethodNotFoundError) {
       return {
         code: -32601,
