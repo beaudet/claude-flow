@@ -29,10 +29,18 @@
     "verbatimModuleSyntax": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "moduleDetection": "force",
-    "types": ["node", "jest"],
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "types": [
+      "node",
+      "jest"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
     "src/**/*.ts"
@@ -54,7 +62,8 @@
     "src/integration/**/*",
     "src/terminal/**/*",
     "src/ui/**/*",
-    "src/task/**/*"
+    "src/task/**/*",
+    "src/ui/hive-dashboard.ts"
   ],
   "ts-node": {
     "esm": true,

@@ -232,7 +232,10 @@ export const startCommand = new Command()
               break;
 
             case '3':
-              const ui = new ProcessUI(processManager);
+              {
+        const ui = new ProcessUI(processManager);
+        break;
+      }
               await ui.start();
               break;
 

@@ -244,10 +244,16 @@ async function main() {
       break;
 
     case 'terminal':
-      const terminalCmd = subArgs[0];
+      {
+        const terminalCmd = subArgs[0];
+        break;
+      }
       switch (terminalCmd) {
         case 'pool':
-          const poolCmd = subArgs[1];
+          {
+        const poolCmd = subArgs[1];
+        break;
+      }
           const detailed = subArgs.includes('--detailed') || subArgs.includes('-d');
 
           if (poolCmd === 'status') {
@@ -336,7 +342,10 @@ async function main() {
 
         case 'execute':
         case 'exec':
-          const execCmd = subArgs.slice(1).join(' ');
+          {
+        const execCmd = subArgs.slice(1).join(' ');
+        break;
+      }
           const sessionFlag = subArgs.indexOf('--session');
           const timeoutFlag = subArgs.indexOf('--timeout');
           const backgroundFlag = subArgs.includes('--background');
@@ -614,7 +623,10 @@ async function main() {
       break;
 
     case 'workflow':
-      const workflowFile = subArgs[0];
+      {
+        const workflowFile = subArgs[0];
+        break;
+      }
       if (workflowFile) {
         printSuccess(`Executing workflow: ${workflowFile}`);
         console.log('🔄 Workflow execution would start here');
@@ -629,10 +641,16 @@ async function main() {
       break;
 
     case 'project':
-      const projectCmd = subArgs[0];
+      {
+        const projectCmd = subArgs[0];
+        break;
+      }
       switch (projectCmd) {
         case 'create':
-          const projectName = subArgs[1];
+          {
+        const projectName = subArgs[1];
+        break;
+      }
           if (!projectName) {
             printError('Usage: project create <name> [options]');
             break;
@@ -671,7 +689,10 @@ async function main() {
           break;
 
         case 'switch':
-          const switchProject = subArgs[1];
+          {
+        const switchProject = subArgs[1];
+        break;
+      }
           if (!switchProject) {
             printError('Usage: project switch <name>');
             break;
@@ -685,7 +706,10 @@ async function main() {
           break;
 
         case 'list':
-          const showActive = subArgs.includes('--active');
+          {
+        const showActive = subArgs.includes('--active');
+        break;
+      }
           const withStats = subArgs.includes('--with-stats');
 
           printSuccess('Available projects:');
@@ -708,7 +732,10 @@ async function main() {
           break;
 
         case 'config':
-          const configAction = subArgs[1];
+          {
+        const configAction = subArgs[1];
+        break;
+      }
           const configProject = subArgs[2];
 
           if (configAction === 'set' && configProject) {
@@ -729,7 +756,10 @@ async function main() {
           break;
 
         case 'monitor':
-          const monitorProject = subArgs[1];
+          {
+        const monitorProject = subArgs[1];
+        break;
+      }
           if (!monitorProject) {
             printError('Usage: project monitor <name> [options]');
             break;
@@ -752,7 +782,10 @@ async function main() {
           break;
 
         case 'backup':
-          const backupProject = subArgs[1];
+          {
+        const backupProject = subArgs[1];
+        break;
+      }
           if (!backupProject) {
             printError('Usage: project backup <name> [options]');
             break;
@@ -784,7 +817,10 @@ async function main() {
           break;
 
         case 'share':
-          const shareFrom = subArgs[1];
+          {
+        const shareFrom = subArgs[1];
+        break;
+      }
           const shareTo = subArgs[2];
 
           if (!shareFrom || !shareTo) {
@@ -810,7 +846,10 @@ async function main() {
           break;
 
         case 'federation':
-          const fedCmd = subArgs[1];
+          {
+        const fedCmd = subArgs[1];
+        break;
+      }
 
           if (fedCmd === 'create') {
             const fedName = subArgs[2];
@@ -859,14 +898,20 @@ async function main() {
       break;
 
     case 'cloud':
-      const cloudCmd = subArgs[0];
+      {
+        const cloudCmd = subArgs[0];
+        break;
+      }
       const cloudProvider = subArgs[1];
 
       switch (cloudCmd) {
         case 'aws':
           switch (cloudProvider) {
             case 'deploy':
-              const awsServices = subArgs.indexOf('--services');
+              {
+        const awsServices = subArgs.indexOf('--services');
+        break;
+      }
               const awsRegions = subArgs.indexOf('--regions');
               const awsHA = subArgs.includes('--ha-configuration');
               const awsCostOpt = subArgs.includes('--cost-optimization');
@@ -930,7 +975,10 @@ async function main() {
         case 'azure':
           switch (cloudProvider) {
             case 'deploy':
-              const azureServices = subArgs.indexOf('--services');
+              {
+        const azureServices = subArgs.indexOf('--services');
+        break;
+      }
               const azureRegions = subArgs.indexOf('--regions');
               const azureIntegration = subArgs.includes('--integration-with-aws');
 
@@ -992,7 +1040,10 @@ async function main() {
         case 'gcp':
           switch (cloudProvider) {
             case 'deploy':
-              const gcpServices = subArgs.indexOf('--services');
+              {
+        const gcpServices = subArgs.indexOf('--services');
+        break;
+      }
               const gcpRegions = subArgs.indexOf('--regions');
               const multiCloud = subArgs.includes('--multi-cloud-networking');
 
@@ -1052,7 +1103,10 @@ async function main() {
           break;
 
         case 'multi-cloud':
-          const multiCloudCmd = subArgs[1];
+          {
+        const multiCloudCmd = subArgs[1];
+        break;
+      }
 
           switch (multiCloudCmd) {
             case 'deploy':
@@ -1090,7 +1144,10 @@ async function main() {
               break;
 
             case 'failover':
-              const failoverTarget = subArgs[2];
+              {
+        const failoverTarget = subArgs[2];
+        break;
+      }
               if (!failoverTarget) {
                 printError('Usage: cloud multi-cloud failover <target-cloud>');
                 break;
@@ -1112,7 +1169,10 @@ async function main() {
           break;
 
         case 'kubernetes':
-          const k8sCmd = subArgs[1];
+          {
+        const k8sCmd = subArgs[1];
+        break;
+      }
 
           switch (k8sCmd) {
             case 'deploy':
@@ -1137,7 +1197,10 @@ async function main() {
               break;
 
             case 'scale':
-              const replicas = subArgs[2] || '5';
+              {
+        const replicas = subArgs[2] || '5';
+        break;
+      }
               printSuccess(`Scaling Claude-Flow to ${replicas} replicas`);
               console.log('📈 Scaling Progress:');
               console.log(`   Current replicas: 3`);
@@ -1187,7 +1250,10 @@ async function main() {
       break;
 
     case 'claude':
-      const claudeCmd = subArgs[0];
+      {
+        const claudeCmd = subArgs[0];
+        break;
+      }
       switch (claudeCmd) {
         case 'spawn':
           // Extract task description and flags
@@ -1448,7 +1514,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'batch':
-          const workflowFile = subArgs[1];
+          {
+        const workflowFile = subArgs[1];
+        break;
+      }
           if (!workflowFile) {
             printError('Usage: claude batch <workflow-file>');
             break;
@@ -1469,10 +1538,16 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
       break;
 
     case 'deploy':
-      const deployCmd = subArgs[0];
+      {
+        const deployCmd = subArgs[0];
+        break;
+      }
       switch (deployCmd) {
         case 'ha-cluster':
-          const nodes = subArgs.find((arg) => arg.includes('--nodes'));
+          {
+        const nodes = subArgs.find((arg) => arg.includes('--nodes'));
+        break;
+      }
           const regions = subArgs.find((arg) => arg.includes('--regions'));
           const replicationFactor = subArgs.find((arg) => arg.includes('--replication-factor'));
 
@@ -1500,7 +1575,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'scaling':
-          const scalingAction = subArgs[1];
+          {
+        const scalingAction = subArgs[1];
+        break;
+      }
 
           if (scalingAction === 'configure') {
             printSuccess('Configuring Auto-Scaling...');
@@ -1525,7 +1603,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'security':
-          const securityAction = subArgs[1];
+          {
+        const securityAction = subArgs[1];
+        break;
+      }
 
           if (securityAction === 'harden') {
             printSuccess('Applying Security Hardening...');
@@ -1591,7 +1672,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
       break;
 
     case 'analytics':
-      const analyticsCmd = subArgs[0];
+      {
+        const analyticsCmd = subArgs[0];
+        break;
+      }
       switch (analyticsCmd) {
         case 'performance':
           printSuccess('Performance Analytics Report');
@@ -1627,7 +1711,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'cost':
-          const costCmd = subArgs[1];
+          {
+        const costCmd = subArgs[1];
+        break;
+      }
           if (costCmd === 'analyze') {
             printSuccess('Cost Analysis Report');
             console.log('\n💰 Cost Breakdown:');
@@ -1663,7 +1750,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
       break;
 
     case 'security':
-      const securityCmd = subArgs[0];
+      {
+        const securityCmd = subArgs[0];
+        break;
+      }
       switch (securityCmd) {
         case 'status':
           printSuccess('Enterprise Security Status');
@@ -1699,7 +1789,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'auth':
-          const authAction = subArgs[1];
+          {
+        const authAction = subArgs[1];
+        break;
+      }
 
           if (authAction === 'configure') {
             printSuccess('Configuring Authentication...');
@@ -1739,7 +1832,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'rbac':
-          const rbacAction = subArgs[1];
+          {
+        const rbacAction = subArgs[1];
+        break;
+      }
 
           if (rbacAction === 'roles') {
             printSuccess('RBAC Roles:');
@@ -1787,7 +1883,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'rate-limit':
-          const rateLimitAction = subArgs[1];
+          {
+        const rateLimitAction = subArgs[1];
+        break;
+      }
 
           if (rateLimitAction === 'status') {
             printSuccess('Rate Limiting Status:');
@@ -1820,7 +1919,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'circuit-breaker':
-          const cbAction = subArgs[1];
+          {
+        const cbAction = subArgs[1];
+        break;
+      }
 
           if (cbAction === 'status') {
             printSuccess('Circuit Breaker Status:');
@@ -1853,7 +1955,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'audit':
-          const auditAction = subArgs[1];
+          {
+        const auditAction = subArgs[1];
+        break;
+      }
 
           if (auditAction === 'status') {
             printSuccess('Audit Logging Status:');
@@ -1957,7 +2062,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
       break;
 
     case 'backup':
-      const backupCmd = subArgs[0];
+      {
+        const backupCmd = subArgs[0];
+        break;
+      }
       switch (backupCmd) {
         case 'configure':
           printSuccess('Configuring Backup Strategy...');
@@ -1978,7 +2086,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'dr':
-          const drAction = subArgs[1];
+          {
+        const drAction = subArgs[1];
+        break;
+      }
           if (drAction === 'configure') {
             printSuccess('Configuring Disaster Recovery...');
             console.log('🚨 DR Configuration:');
@@ -2004,7 +2115,10 @@ ${flags.mode === 'full' || !flags.mode ? `Full-stack development covering all as
           break;
 
         case 'restore':
-          const restorePoint = subArgs[1];
+          {
+        const restorePoint = subArgs[1];
+        break;
+      }
           if (!restorePoint) {
             printError('Usage: backup restore <backup-id|timestamp>');
             break;
@@ -2246,7 +2360,10 @@ Shortcuts:
     const subCmd = args[0];
     switch (subCmd) {
       case 'spawn':
+        {
         const type = args[1] || 'researcher';
+        break;
+      }
         const name = args[2] || `agent-${Date.now()}`;
         const agent = {
           id: `agent-${Date.now()}`,
@@ -2271,7 +2388,10 @@ Shortcuts:
         break;
 
       case 'info':
+        {
         const agentId = args[1];
+        break;
+      }
         const foundAgent = state.context.agents.find(
           (a: any) => a.id === agentId || a.name === agentId,
         );
@@ -2287,7 +2407,10 @@ Shortcuts:
         break;
 
       case 'terminate':
+        {
         const termId = args[1];
+        break;
+      }
         const index = state.context.agents.findIndex(
           (a: any) => a.id === termId || a.name === termId,
         );
@@ -2309,7 +2432,10 @@ Shortcuts:
     const subCmd = args[0];
     switch (subCmd) {
       case 'create':
+        {
         const type = args[1] || 'general';
+        break;
+      }
         const description = args.slice(2).join(' ') || 'No description';
         const task = {
           id: `task-${Date.now()}`,
@@ -2337,7 +2463,10 @@ Shortcuts:
         break;
 
       case 'assign':
+        {
         const taskId = args[1];
+        break;
+      }
         const assignAgentId = args[2];
         const foundTask = state.context.tasks.find((t: any) => t.id === taskId);
         const assignAgent = state.context.agents.find(
@@ -2354,7 +2483,10 @@ Shortcuts:
         break;
 
       case 'status':
+        {
         const statusId = args[1];
+        break;
+      }
         const statusTask = state.context.tasks.find((t: any) => t.id === statusId);
         if (statusTask) {
           console.log(`Task: ${statusTask.id}`);
@@ -2380,7 +2512,10 @@ Shortcuts:
     const subCmd = args[0];
     switch (subCmd) {
       case 'store':
+        {
         const key = args[1];
+        break;
+      }
         const value = args.slice(2).join(' ');
         if (key && value) {
           state.context.memory[key] = value;
@@ -2391,7 +2526,10 @@ Shortcuts:
         break;
 
       case 'get':
+        {
         const getKey = args[1];
+        break;
+      }
         if (getKey && state.context.memory[getKey]) {
           console.log(`${getKey}: ${state.context.memory[getKey]}`);
         } else {
@@ -2400,7 +2538,10 @@ Shortcuts:
         break;
 
       case 'list':
+        {
         const keys = Object.keys(state.context.memory);
+        break;
+      }
         if (keys.length === 0) {
           console.log('No data in memory');
         } else {
@@ -2426,7 +2567,10 @@ Shortcuts:
     const subCmd = args[0];
     switch (subCmd) {
       case 'create':
+        {
         const name = args[1] || `term-${Date.now()}`;
+        break;
+      }
         const terminal = {
           id: name,
           status: 'active',
@@ -2448,7 +2592,10 @@ Shortcuts:
         break;
 
       case 'exec':
+        {
         const cmd = args.slice(1).join(' ');
+        break;
+      }
         if (cmd) {
           console.log(`Executing: ${cmd}`);
           console.log('(Command execution simulated in REPL)');
@@ -2458,7 +2605,10 @@ Shortcuts:
         break;
 
       case 'attach':
+        {
         const attachId = args[1];
+        break;
+      }
         if (attachId) {
           state.currentSession = attachId;
           console.log(`Attached to terminal: ${attachId}`);

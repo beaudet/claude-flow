@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./dist-cjs",
+    "verbatimModuleSyntax": false,
+    "target": "ES2020"
+  },
+  "include": [
+    "src/types/**/*",
+    "src/utils/**/*",
+    "src/core/**/*",
+    "src/config/**/*",
+    "src/api/claude-client.ts",
+    "src/api/claude-client-enhanced.ts",
+    "src/api/claude-api-errors.ts",
+    "src/mcp/client.ts",
+    "src/mcp/server.ts",
+    "src/mcp/index.ts",
+    "src/providers/base-provider.ts",
+    "src/providers/anthropic-provider.ts",
+    "src/memory/manager.ts",
+    "src/memory/backends/markdown.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-cjs",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.test.js",
+    "**/*.spec.js",
+    "tests/**/*"
+  ]
+}

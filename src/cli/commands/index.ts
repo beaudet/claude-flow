@@ -2352,35 +2352,59 @@ Now, please proceed with the task: ${task}`;
         // Execute the appropriate subcommand
         switch (subcommand) {
           case 'init':
-            const { initCommand } = await import('./hive-mind/init.js');
+            {
+        const { initCommand } = await import('./hive-mind/init.js');
+        break;
+      }
             await initCommand.parseAsync(process.argv.slice(3));
             break;
           case 'spawn':
-            const { spawnCommand } = await import('./hive-mind/spawn.js');
+            {
+        const { spawnCommand } = await import('./hive-mind/spawn.js');
+        break;
+      }
             await spawnCommand.parseAsync(process.argv.slice(3));
             break;
           case 'status':
-            const { statusCommand } = await import('./hive-mind/status.js');
+            {
+        const { statusCommand } = await import('./hive-mind/status.js');
+        break;
+      }
             await statusCommand.parseAsync(process.argv.slice(3));
             break;
           case 'task':
-            const { taskCommand } = await import('./hive-mind/task.js');
+            {
+        const { taskCommand } = await import('./hive-mind/task.js');
+        break;
+      }
             await taskCommand.parseAsync(process.argv.slice(3));
             break;
           case 'stop':
-            const { stopCommand } = await import('./hive-mind/stop.js');
+            {
+        const { stopCommand } = await import('./hive-mind/stop.js');
+        break;
+      }
             await stopCommand.parseAsync(process.argv.slice(3));
             break;
           case 'pause':
-            const { pauseCommand } = await import('./hive-mind/pause.js');
+            {
+        const { pauseCommand } = await import('./hive-mind/pause.js');
+        break;
+      }
             await pauseCommand.parseAsync(process.argv.slice(3));
             break;
           case 'resume':
-            const { resumeCommand } = await import('./hive-mind/resume.js');
+            {
+        const { resumeCommand } = await import('./hive-mind/resume.js');
+        break;
+      }
             await resumeCommand.parseAsync(process.argv.slice(3));
             break;
           case 'ps':
-            const { psCommand } = await import('./hive-mind/ps.js');
+            {
+        const { psCommand } = await import('./hive-mind/ps.js');
+        break;
+      }
             await psCommand.parseAsync(process.argv.slice(3));
             break;
           case 'wizard':

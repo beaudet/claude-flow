@@ -292,8 +292,8 @@ export class OpenAIProvider extends BaseProvider {
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
-      let totalPromptTokens = 0;
-      let totalCompletionTokens = 0;
+      const totalPromptTokens = 0;
+      const totalCompletionTokens = 0;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -452,7 +452,7 @@ export class OpenAIProvider extends BaseProvider {
     switch (response.status) {
       case 401:
         throw new AuthenticationError(message, 'openai', errorData);
-      case 429:
+      case 429: {
         const retryAfter = response.headers.get('retry-after');
         throw new RateLimitError(
           message,
@@ -460,6 +460,7 @@ export class OpenAIProvider extends BaseProvider {
           retryAfter ? parseInt(retryAfter) : undefined,
           errorData
         );
+      }
       case 404:
         throw new ModelNotFoundError(this.config.model, 'openai', errorData);
       default:

@@ -242,7 +242,10 @@ export class TaskEngine extends EventEmitter {
           case 'priority':
             return direction * (a.priority - b.priority);
           case 'deadline':
-            const aDeadline = a.schedule?.deadline?.getTime() || 0;
+            {
+        const aDeadline = a.schedule?.deadline?.getTime() || 0;
+        break;
+      }
             const bDeadline = b.schedule?.deadline?.getTime() || 0;
             return direction * (aDeadline - bDeadline);
           case 'estimatedDuration':

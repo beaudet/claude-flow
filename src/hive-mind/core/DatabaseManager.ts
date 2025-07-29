@@ -8,11 +8,10 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { EventEmitter } from 'events';
-import { fileURLToPath } from 'url';
+import { createCompatDirname } from '../../utils/module-utils.js';
 
 // ES module compatibility - define __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { __filename, __dirname } = createCompatDirname();
 
 // Dynamic import for SQLite wrapper
 let createDatabase: any;

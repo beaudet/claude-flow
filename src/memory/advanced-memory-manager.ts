@@ -8,6 +8,7 @@ import { promises as fs } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createCompatDirname } from '../utils/module-utils.js';
 import type { ILogger } from '../core/logger.js';
 import { generateId } from '../utils/helpers.js';
 
@@ -231,7 +232,7 @@ export class AdvancedMemoryManager extends EventEmitter {
     };
 
     // Setup file paths
-    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const { __dirname } = createCompatDirname();
     this.dataPath = join(process.cwd(), 'memory', 'data');
     this.indexPath = join(process.cwd(), 'memory', 'index');
     this.backupPath = join(process.cwd(), 'memory', 'backups');
@@ -1459,7 +1460,7 @@ export class AdvancedMemoryManager extends EventEmitter {
             merge: true,
           });
           return { action: 'updated' };
-        case 'rename':
+        case 'rename': {
           const newKey = `${item.key}_imported_${Date.now()}`;
           await this.store(newKey, item.value, {
             namespace: item.namespace,
@@ -1468,6 +1469,7 @@ export class AdvancedMemoryManager extends EventEmitter {
             metadata: item.metadata,
           });
           return { action: 'imported' };
+        }
         default:
           return {
             action: 'conflict',

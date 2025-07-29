@@ -1,0 +1,43 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-cjs",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.test.js",
+    "**/*.spec.js",
+    "tests/**/*",
+    "deno_modules",
+    "bin",
+    "src/terminal/vscode-bridge.ts",
+    "src/hive-mind/**/*",
+    "src/swarm/**/*",
+    "src/enterprise/**/*",
+    "src/integration/**/*",
+    "src/terminal/**/*",
+    "src/ui/**/*",
+    "src/task/**/*",
+    "src/cli/simple-commands/**/*",
+    "src/cli/simple-cli.ts",
+    "src/cli/simple-orchestrator.ts",
+    "src/cli/commands/index.ts",
+    "src/cli/commands/start/**/*",
+    "src/cli/index.ts",
+    "src/cli/index-remote.ts",
+    "src/cli/main.ts",
+    "src/memory/enhanced-memory.js",
+    "src/memory/sqlite-store.js",
+    "src/memory/sqlite-wrapper.js",
+    "src/memory/test-example.js",
+    "src/mcp/integrate-wrapper.ts",
+    "src/mcp/sparc-modes.ts",
+    "src/mcp/transports/http.ts",
+    "src/memory/advanced-memory-manager.ts",
+    "src/providers/openai-provider.ts"
+  ]
+}

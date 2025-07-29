@@ -9,13 +9,13 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { SparcMode, loadSparcModes } from './sparc-modes.js';
+import { createCompatDirname, isMainModule } from '../utils/module-utils.js';
 // Simple ID generation
 function generateId(): string {
   return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { __filename, __dirname } = createCompatDirname();
 
 interface SparcContext {
   memoryKey?: string;
@@ -819,7 +819,7 @@ Use the appropriate tools for each phase and maintain progress in TodoWrite.`;
 }
 
 // Run the server if this is the main module
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule()) {
   const wrapper = new ClaudeCodeMCPWrapper();
   wrapper.run().catch(console.error);
 }

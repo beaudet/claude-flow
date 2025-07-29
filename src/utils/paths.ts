@@ -1,9 +1,8 @@
-import { dirname, join, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { join, resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
+import { createCompatDirname } from './module-utils.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const { __dirname } = createCompatDirname();
 
 export function getClaudeFlowRoot(): string {
   // Try multiple strategies to find the root

@@ -84,14 +84,20 @@ export function createTaskWorkflowCommand(context: TaskCommandContext) {
       try {
         switch (action) {
           case 'create':
-            const [workflowData] = args;
+            {
+        const [workflowData] = args;
+        break;
+      }
             const createdWorkflow = await context.taskEngine.createWorkflow(workflowData);
             context.logger?.info('Workflow created successfully', {
               workflowId: createdWorkflow.id,
             });
             return createdWorkflow;
           case 'execute':
-            const [workflowToExecute] = args;
+            {
+        const [workflowToExecute] = args;
+        break;
+      }
             await context.taskEngine.executeWorkflow(workflowToExecute);
             context.logger?.info('Workflow execution started', {
               workflowId: workflowToExecute.id,
@@ -101,7 +107,10 @@ export function createTaskWorkflowCommand(context: TaskCommandContext) {
             context.logger?.info('Workflow list requested');
             return { workflows: [] }; // Would need additional implementation
           case 'get':
-            const [workflowId] = args;
+            {
+        const [workflowId] = args;
+        break;
+      }
             context.logger?.info('Workflow details requested', { workflowId });
             return { workflowId }; // Would need additional implementation
           default:

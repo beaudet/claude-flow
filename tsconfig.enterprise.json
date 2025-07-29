@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist-enterprise",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": [
+    "src/types/**/*",
+    "src/utils/**/*",
+    "src/core/**/*",
+    "src/config/**/*",
+    "src/api/claude-client.ts",
+    "src/api/claude-client-enhanced.ts", 
+    "src/api/claude-api-errors.ts",
+    "src/providers/base-provider.ts",
+    "src/providers/anthropic-provider.ts",
+    "src/memory/manager.ts",
+    "src/memory/backends/markdown.ts",
+    "src/mcp/client.ts",
+    "src/mcp/server.ts",
+    "src/mcp/index.ts",
+    "src/mcp/claude-code-wrapper.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-cjs",
+    "dist-enterprise",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "tests/**/*"
+  ]
+}

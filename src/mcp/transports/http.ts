@@ -9,6 +9,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createCompatDirname } from '../../utils/module-utils.js';
 import type { ITransport, RequestHandler, NotificationHandler } from './base.js';
 import type { MCPRequest, MCPResponse, MCPNotification, MCPConfig } from '../../utils/types.js';
 import type { ILogger } from '../../core/logger.js';
@@ -165,11 +166,7 @@ export class HttpTransport implements ITransport {
 
   private setupRoutes(): void {
     // Get current file directory for static files
-    const __filename: string =
-      typeof import.meta?.url !== 'undefined'
-        ? fileURLToPath(import.meta.url)
-        : process.cwd() + '/src/mcp/transports/http.ts';
-    const __dirname = dirname(__filename);
+    const { __filename, __dirname } = createCompatDirname();
     const consoleDir = join(__dirname, '../../ui/console');
 
     // Serve static files for the web console

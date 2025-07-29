@@ -9,6 +9,7 @@ import type { CommandContext } from '../cli-core.js';
 import { BackgroundExecutor } from '../../coordination/background-executor.js';
 import { SwarmCoordinator } from '../../coordination/swarm-coordinator.js';
 import { SwarmMemoryManager } from '../../memory/swarm-memory.js';
+import { getProjectRoot } from '../../utils/module-utils.js';
 export async function swarmAction(ctx: CommandContext) {
   // First check if help is requested
   if (ctx.flags.help || ctx.flags.h) {
@@ -87,8 +88,7 @@ export async function swarmAction(ctx: CommandContext) {
   // If UI mode is requested, use the blessed UI version
   if (options.ui) {
     try {
-      const scriptPath = new URL(import.meta.url).pathname;
-      const projectRoot = scriptPath.substring(0, scriptPath.indexOf('/src/'));
+      const projectRoot = getProjectRoot();
       const uiScriptPath = `${projectRoot}/src/cli/simple-commands/swarm-ui.js`;
 
       // Check if the UI script exists
@@ -534,8 +534,7 @@ exit \${PIPESTATUS[0]}`;
       console.log(`    → Using: claude-flow ${claudeFlowArgs.join(' ')}`);
 
       // Get the path to claude-flow binary
-      const claudeFlowPath = new URL(import.meta.url).pathname;
-      const projectRoot = claudeFlowPath.substring(0, claudeFlowPath.indexOf('/src/'));
+      const projectRoot = getProjectRoot();
       const claudeFlowBin = `${projectRoot}/bin/claude-flow`;
 
       // Execute claude-flow command
