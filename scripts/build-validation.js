@@ -141,7 +141,7 @@ class BuildValidator {
       return this.generateReport(false);
     }
     
-    // Step 4: Test execution (if tests exist)
+    // Step 4: Test execution and coverage enforcement
     try {
       const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
       if (packageJson.scripts?.test) {
@@ -154,6 +154,20 @@ class BuildValidator {
         if (!testSuccess) {
           this.log('⚠️  Tests failed, but continuing build validation', 'warning');
         }
+        
+        // Step 4b: Coverage enforcement (enterprise requirement)
+        if (packageJson.scripts?.['test:coverage:enforce']) {
+          this.log('Running enterprise coverage enforcement...', 'progress');
+          const coverageSuccess = await this.runStep(
+            'coverage',
+            'npm run test:coverage:enforce',
+            'Coverage enforcement failed'
+          );
+          
+          if (!coverageSuccess) {
+            this.log('⚠️  Coverage below enterprise standards, but continuing', 'warning');
+          }
+        }
       } else {
         this.log('ℹ️  No test script found, skipping test validation', 'info');
       }
@@ -161,19 +175,20 @@ class BuildValidator {
       this.log('⚠️  Could not read package.json for test validation', 'warning');
     }
     
-    // Step 5: Security audit (if npm audit available)
+    // Step 5: Enterprise Security Scanning
     try {
-      const auditSuccess = await this.runStep(
+      this.log('Running enterprise security scanning...', 'progress');
+      const securitySuccess = await this.runStep(
         'security',
-        'npm audit --audit-level=high',
-        'Security audit found vulnerabilities'
+        'npm run security:enforce',
+        'Enterprise security scanning failed'
       );
       
-      if (!auditSuccess) {
-        this.log('⚠️  Security vulnerabilities found, but continuing', 'warning');
+      if (!securitySuccess) {
+        this.log('⚠️  Security scanning found issues, but continuing build', 'warning');
       }
     } catch (error) {
-      this.log('ℹ️  Security audit not available or failed', 'info');
+      this.log('ℹ️  Security scanning not available or failed', 'info');
     }
     
     return this.generateReport(true);

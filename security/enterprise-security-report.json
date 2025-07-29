@@ -1,0 +1,2992 @@
+{
+  "timestamp": "2025-07-29T02:48:58.467Z",
+  "summary": {
+    "high": 5,
+    "medium": 285,
+    "low": 38,
+    "total": 328
+  },
+  "findings": {
+    "high": [
+      {
+        "type": "secret-pattern",
+        "severity": "high",
+        "file": ".claude/agents/testing/validation/production-validator.md",
+        "line": 144,
+        "pattern": "API Keys",
+        "match": "apiKey: 'invalid_key'",
+        "context": "apiKey: 'invalid_key',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "high",
+        "file": "archive/legacy-memory-system/docs/deployment.md",
+        "line": 683,
+        "pattern": "API Keys",
+        "match": "api_key=\"sk-...\"",
+        "context": "openai_api_key=\"sk-...\" \\"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "high",
+        "file": "src/utils/module-utils.ts",
+        "line": 24,
+        "pattern": "eval() usage",
+        "match": "eval(",
+        "context": "return eval('__filename');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "high",
+        "file": "src/utils/module-utils.ts",
+        "line": 61,
+        "pattern": "eval() usage",
+        "match": "eval(",
+        "context": "const req = eval('require');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "high",
+        "file": "src/utils/module-utils.ts",
+        "line": 63,
+        "pattern": "eval() usage",
+        "match": "eval(",
+        "context": "return req.main === eval('module');"
+      }
+    ],
+    "medium": [
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/consensus/README.md",
+        "line": 90,
+        "pattern": "Generic Secrets",
+        "match": "key: 'consensus_state'",
+        "context": "key: 'consensus_state',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/issue-tracker.md",
+        "line": 95,
+        "pattern": "Generic Secrets",
+        "match": "key: \"issue/54/progress\"",
+        "context": "key: \"issue/54/progress\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/issue-tracker.md",
+        "line": 190,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/github_integration/issues\"",
+        "context": "key: \"project/github_integration/issues\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/multi-repo-swarm.md",
+        "line": 155,
+        "pattern": "Database URLs",
+        "match": "redis://shared-memory",
+        "context": "memory: redis://shared-memory"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/pr-manager.md",
+        "line": 113,
+        "pattern": "Generic Secrets",
+        "match": "key: \"pr/54/merged\"",
+        "context": "key: \"pr/54/merged\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/release-manager.md",
+        "line": 256,
+        "pattern": "Generic Secrets",
+        "match": "key: \"release/v1.0.72/status\"",
+        "context": "key: \"release/v1.0.72/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/repo-architect.md",
+        "line": 259,
+        "pattern": "Generic Secrets",
+        "match": "key: \"architecture/analysis/results\"",
+        "context": "key: \"architecture/analysis/results\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/swarm-issue.md",
+        "line": 528,
+        "pattern": "Generic Secrets",
+        "match": "key: \"issue/#{issue_number}/context\"",
+        "context": "key: \"issue/#{issue_number}/context\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/swarm-pr.md",
+        "line": 336,
+        "pattern": "Generic Secrets",
+        "match": "key: \"pr/#{pr_number}/analysis\"",
+        "context": "key: \"pr/#{pr_number}/analysis\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/swarm-pr.md",
+        "line": 418,
+        "pattern": "Generic Secrets",
+        "match": "key: \"pr/merge_decisions/#{pr_number}\"",
+        "context": "key: \"pr/merge_decisions/#{pr_number}\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/sync-coordinator.md",
+        "line": 114,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/documentation/status\"",
+        "context": "key: \"sync/documentation/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/sync-coordinator.md",
+        "line": 227,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/complete/status\"",
+        "context": "key: \"sync/complete/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/sync-coordinator.md",
+        "line": 373,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/conflicts/current\"",
+        "context": "key: \"sync/conflicts/current\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/sync-coordinator.md",
+        "line": 395,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/metrics/session\"",
+        "context": "key: \"sync/metrics/session\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/sync-coordinator.md",
+        "line": 429,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/recovery/state\"",
+        "context": "key: \"sync/recovery/state\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/workflow-automation.md",
+        "line": 535,
+        "pattern": "Generic Secrets",
+        "match": "key: \"workflow/performance/analysis\"",
+        "context": "key: \"workflow/performance/analysis\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/github/workflow-automation.md",
+        "line": 607,
+        "pattern": "Generic Secrets",
+        "match": "key: \"workflow/learning/patterns\"",
+        "context": "key: \"workflow/learning/patterns\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/sparc/refinement.md",
+        "line": 62,
+        "pattern": "Generic Secrets",
+        "match": "password: 'SecurePass123!'",
+        "context": "password: 'SecurePass123!'"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/sparc/refinement.md",
+        "line": 90,
+        "pattern": "Generic Secrets",
+        "match": "password: 'WrongPassword'",
+        "context": "password: 'WrongPassword'"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/sparc/refinement.md",
+        "line": 266,
+        "pattern": "Generic Secrets",
+        "match": "password: 'password'",
+        "context": "password: 'password'"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/agents/testing/validation/production-validator.md",
+        "line": 144,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'invalid_key'",
+        "context": "apiKey: 'invalid_key',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/issue-tracker.md",
+        "line": 68,
+        "pattern": "Generic Secrets",
+        "match": "key: \"issue/54/progress\"",
+        "context": "key: \"issue/54/progress\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/issue-tracker.md",
+        "line": 163,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/github_integration/issues\"",
+        "context": "key: \"project/github_integration/issues\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/multi-repo-swarm.md",
+        "line": 121,
+        "pattern": "Database URLs",
+        "match": "redis://shared-memory",
+        "context": "memory: redis://shared-memory"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/pr-manager.md",
+        "line": 92,
+        "pattern": "Generic Secrets",
+        "match": "key: \"pr/54/merged\"",
+        "context": "key: \"pr/54/merged\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/release-manager.md",
+        "line": 227,
+        "pattern": "Generic Secrets",
+        "match": "key: \"release/v1.0.72/status\"",
+        "context": "key: \"release/v1.0.72/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/repo-architect.md",
+        "line": 228,
+        "pattern": "Generic Secrets",
+        "match": "key: \"architecture/analysis/results\"",
+        "context": "key: \"architecture/analysis/results\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/sync-coordinator.md",
+        "line": 78,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/documentation/status\"",
+        "context": "key: \"sync/documentation/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": ".claude/commands/github/sync-coordinator.md",
+        "line": 191,
+        "pattern": "Generic Secrets",
+        "match": "key: \"sync/complete/status\"",
+        "context": "key: \"sync/complete/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/README.md",
+        "line": 45,
+        "pattern": "Generic Secrets",
+        "match": "key: 'important-fact'",
+        "context": "key: 'important-fact',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/docs/configuration.md",
+        "line": 595,
+        "pattern": "Generic Secrets",
+        "match": "key: './certs/client.key'",
+        "context": "key: './certs/client.key'"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/docs/deployment.md",
+        "line": 684,
+        "pattern": "Generic Secrets",
+        "match": "key=\"base64_encoded_key\"",
+        "context": "encryption_key=\"base64_encoded_key\" \\"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/docs/deployment.md",
+        "line": 685,
+        "pattern": "Generic Secrets",
+        "match": "password=\"secure_password\"",
+        "context": "db_password=\"secure_password\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 51,
+        "pattern": "Generic Secrets",
+        "match": "key: 'react-performance'",
+        "context": "key: 'react-performance',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 67,
+        "pattern": "Generic Secrets",
+        "match": "key: 'london-school-mocking'",
+        "context": "key: 'london-school-mocking',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 99,
+        "pattern": "Generic Secrets",
+        "match": "key: 'adr-001-event-sourcing'",
+        "context": "key: 'adr-001-event-sourcing',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 152,
+        "pattern": "Generic Secrets",
+        "match": "key: 'ultrasonic-steganography'",
+        "context": "key: 'ultrasonic-steganography',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 174,
+        "pattern": "Generic Secrets",
+        "match": "key: 'react-perf-guide'",
+        "context": "key: 'react-perf-guide',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 262,
+        "pattern": "Generic Secrets",
+        "match": "key: 'app-settings'",
+        "context": "key: 'app-settings',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/examples/usage-example.ts",
+        "line": 270,
+        "pattern": "Generic Secrets",
+        "match": "key: 'app-settings'",
+        "context": "key: 'app-settings',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/backends.test.ts",
+        "line": 148,
+        "pattern": "Generic Secrets",
+        "match": "key: 'settings'",
+        "context": "key: 'settings',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/backends.test.ts",
+        "line": 383,
+        "pattern": "Generic Secrets",
+        "match": "key: 'decision-001'",
+        "context": "key: 'decision-001',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/import-export.test.ts",
+        "line": 215,
+        "pattern": "Generic Secrets",
+        "match": "key: 'key,with,commas'",
+        "context": "key: 'key,with,commas',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 76,
+        "pattern": "Generic Secrets",
+        "match": "key: 'article1'",
+        "context": "key: 'article1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 84,
+        "pattern": "Generic Secrets",
+        "match": "key: 'article2'",
+        "context": "key: 'article2',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 104,
+        "pattern": "Generic Secrets",
+        "match": "key: 'setting1'",
+        "context": "key: 'setting1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 112,
+        "pattern": "Generic Secrets",
+        "match": "key: 'setting2'",
+        "context": "key: 'setting2',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 304,
+        "pattern": "Generic Secrets",
+        "match": "key: 'different'",
+        "context": "key: 'different',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/indexer.test.ts",
+        "line": 320,
+        "pattern": "Generic Secrets",
+        "match": "key: 'different'",
+        "context": "key: 'different',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/memory-manager.test.ts",
+        "line": 184,
+        "pattern": "Generic Secrets",
+        "match": "key: 'conflict'",
+        "context": "key: 'conflict',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/memory-manager.test.ts",
+        "line": 192,
+        "pattern": "Generic Secrets",
+        "match": "key: 'conflict'",
+        "context": "key: 'conflict',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/memory-manager.test.ts",
+        "line": 289,
+        "pattern": "Generic Secrets",
+        "match": "key: 'cached-item'",
+        "context": "key: 'cached-item',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/memory-manager.test.ts",
+        "line": 313,
+        "pattern": "Generic Secrets",
+        "match": "key: 'to-delete'",
+        "context": "key: 'to-delete',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/namespace-manager.test.ts",
+        "line": 333,
+        "pattern": "Generic Secrets",
+        "match": "key: 'shared-key'",
+        "context": "key: 'shared-key',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/namespace-manager.test.ts",
+        "line": 349,
+        "pattern": "Generic Secrets",
+        "match": "key: 'shared-key'",
+        "context": "key: 'shared-key',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/namespace-manager.test.ts",
+        "line": 387,
+        "pattern": "Generic Secrets",
+        "match": "key: 'conflict'",
+        "context": "key: 'conflict',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/namespace-manager.test.ts",
+        "line": 395,
+        "pattern": "Generic Secrets",
+        "match": "key: 'conflict'",
+        "context": "key: 'conflict',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "archive/legacy-memory-system/src/tests/replication.test.ts",
+        "line": 275,
+        "pattern": "Generic Secrets",
+        "match": "key: 'remote-key1'",
+        "context": "key: 'remote-key1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "benchmark/docs/integration_guide.md",
+        "line": 97,
+        "pattern": "Generic Secrets",
+        "match": "key=\"db_optimization\"",
+        "context": "memory_key=\"db_optimization\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/advanced-memory-management.md",
+        "line": 433,
+        "pattern": "Generic Secrets",
+        "match": "Key: \"research_findings_session_123\"",
+        "context": "memoryKey: \"research_findings_session_123\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/agent-system-documentation.md",
+        "line": 296,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project-architecture\"",
+        "context": "key: \"project-architecture\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/agent-system-documentation.md",
+        "line": 305,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project-architecture\"",
+        "context": "key: \"project-architecture\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/agent-system-documentation.md",
+        "line": 638,
+        "pattern": "Generic Secrets",
+        "match": "key: \"expired-data\"",
+        "context": "key: \"expired-data\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/analysis/v2.0.0/wizards/getting-started-wizard.md",
+        "line": 480,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "document.getElementById('node-result').innerHTML ="
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/analysis/v2.0.0/wizards/getting-started-wizard.md",
+        "line": 485,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "document.getElementById('node-result').innerHTML ="
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/analysis/v2.0.0/wizards/getting-started-wizard.md",
+        "line": 489,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "document.getElementById('node-result').innerHTML ="
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 54,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/api-system/init\"",
+        "context": "key: \"project/api-system/init\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 84,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/api-system/infrastructure\"",
+        "context": "key: \"project/api-system/infrastructure\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 116,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/api-system/components\"",
+        "context": "key: \"project/api-system/components\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 149,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/api-system/completion\"",
+        "context": "key: \"project/api-system/completion\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 195,
+        "pattern": "Generic Secrets",
+        "match": "key: \"research/nas/trends\"",
+        "context": "mcp__claude-flow__memory_usage({ action: \"store\", key: \"research/nas/trends\", value: searchResults1 })"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 196,
+        "pattern": "Generic Secrets",
+        "match": "key: \"research/transformers/efficiency\"",
+        "context": "mcp__claude-flow__memory_usage({ action: \"store\", key: \"research/transformers/efficiency\", value: searchResults2 })"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 197,
+        "pattern": "Generic Secrets",
+        "match": "key: \"research/edge-ai/deployment\"",
+        "context": "mcp__claude-flow__memory_usage({ action: \"store\", key: \"research/edge-ai/deployment\", value: searchResults3 })"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 260,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/microservices/architecture\"",
+        "context": "key: \"project/microservices/architecture\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 272,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/microservices/services/user/api\"",
+        "context": "key: \"project/microservices/services/user/api\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 284,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/microservices/dependencies\"",
+        "context": "key: \"project/microservices/dependencies\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 299,
+        "pattern": "Generic Secrets",
+        "match": "key: \"swarm/agents/user-service-dev/progress\"",
+        "context": "key: \"swarm/agents/user-service-dev/progress\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 312,
+        "pattern": "Generic Secrets",
+        "match": "key: \"swarm/project/status\"",
+        "context": "key: \"swarm/project/status\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-integration-examples.md",
+        "line": 429,
+        "pattern": "Generic Secrets",
+        "match": "key: \"swarm/shared/project-context\"",
+        "context": "key: \"swarm/shared/project-context\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-workflow-patterns.md",
+        "line": 124,
+        "pattern": "Generic Secrets",
+        "match": "key: \"microservices/architecture/boundaries\"",
+        "context": "key: \"microservices/architecture/boundaries\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/ruv-swarm-workflow-patterns.md",
+        "line": 485,
+        "pattern": "Generic Secrets",
+        "match": "key: \"workflow/metrics/performance\"",
+        "context": "key: \"workflow/metrics/performance\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/troubleshooting.md",
+        "line": 389,
+        "pattern": "Generic Secrets",
+        "match": "TOKEN=\"your-token\"",
+        "context": "export GITHUB_TOKEN=\"your-token\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "docs/troubleshooting.md",
+        "line": 492,
+        "pattern": "Generic Secrets",
+        "match": "TOKEN=\"your-github-token\"",
+        "context": "export GITHUB_TOKEN=\"your-github-token\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/01-configurations/advanced/production-config.json",
+        "line": 18,
+        "pattern": "Database URLs",
+        "match": "redis://localhost:6379",
+        "context": "\"location\": \"redis://localhost:6379\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/README-PRODUCTS-ORDERS.md",
+        "line": 288,
+        "pattern": "Database URLs",
+        "match": "redis://localhost:6379",
+        "context": "REDIS_URL=redis://localhost:6379"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/README.md",
+        "line": 182,
+        "pattern": "Database URLs",
+        "match": "mongodb://localhost:27017/rest-api-advanced",
+        "context": "MONGODB_URI=mongodb://localhost:27017/rest-api-advanced"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/README.md",
+        "line": 442,
+        "pattern": "Database URLs",
+        "match": "mongodb://localhost:27017/rest-api-advanced",
+        "context": "MONGODB_URI=mongodb://localhost:27017/rest-api-advanced"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docker-compose.yml",
+        "line": 15,
+        "pattern": "Database URLs",
+        "match": "mongodb://mongodb:27017/rest-api-advanced",
+        "context": "- MONGODB_URI=mongodb://mongodb:27017/rest-api-advanced"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 71,
+        "pattern": "Database URLs",
+        "match": "mongodb://localhost:27017/rest-api-advanced",
+        "context": "MONGODB_URI=mongodb://localhost:27017/rest-api-advanced"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 223,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 224,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 256,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 257,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 279,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 287,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/docs/API.md",
+        "line": 288,
+        "pattern": "JWT Tokens",
+        "match": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..",
+        "context": "\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 42,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Connectivity'",
+        "context": "{ key: 'Connectivity', value: 'Bluetooth 5.0' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 66,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Resolution'",
+        "context": "{ key: 'Resolution', value: '4K (3840x2160)' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 85,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Material'",
+        "context": "{ key: 'Material', value: '100% Organic Cotton' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 97,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Material'",
+        "context": "{ key: 'Material', value: '98% Cotton, 2% Elastane' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 118,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Lifespan'",
+        "context": "{ key: 'Lifespan', value: '25,000 hours' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 177,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Thickness'",
+        "context": "{ key: 'Thickness', value: '6mm' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 178,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Material'",
+        "context": "{ key: 'Material', value: 'TPE Eco-friendly' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/src/seeders/products.seeder.js",
+        "line": 190,
+        "pattern": "Generic Secrets",
+        "match": "key: 'Capacity'",
+        "context": "{ key: 'Capacity', value: '4 Person' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/test-auth.js",
+        "line": 103,
+        "pattern": "Generic Secrets",
+        "match": "password: 'password'",
+        "context": "{ password: 'password', expected: 'weak' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/test-auth.js",
+        "line": 104,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password1'",
+        "context": "{ password: 'Password1', expected: 'medium' },"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/test-auth.js",
+        "line": 105,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password1!'",
+        "context": "{ password: 'Password1!', expected: 'strong' }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/test-auth.js",
+        "line": 216,
+        "pattern": "Generic Secrets",
+        "match": "Password = 'WrongPassword123!'",
+        "context": "const wrongPassword = 'WrongPassword123!';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 24,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 53,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 61,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 93,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 132,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 143,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 161,
+        "pattern": "Generic Secrets",
+        "match": "password: 'WrongPassword!'",
+        "context": "password: 'WrongPassword!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 174,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 191,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 206,
+        "pattern": "Generic Secrets",
+        "match": "password: 'WrongPassword!'",
+        "context": "password: 'WrongPassword!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 223,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 270,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 301,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 322,
+        "pattern": "Generic Secrets",
+        "match": "Token: 'invalid-refresh-token'",
+        "context": ".send({ refreshToken: 'invalid-refresh-token' })"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 351,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 391,
+        "pattern": "Generic Secrets",
+        "match": "password: 'OldPassword123!'",
+        "context": "password: 'OldPassword123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 406,
+        "pattern": "Generic Secrets",
+        "match": "Password = 'NewPassword123!'",
+        "context": "const newPassword = 'NewPassword123!';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 435,
+        "pattern": "Generic Secrets",
+        "match": "token: 'invalid-token'",
+        "context": "token: 'invalid-token',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 436,
+        "pattern": "Generic Secrets",
+        "match": "password: 'NewPassword123!'",
+        "context": "password: 'NewPassword123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 455,
+        "pattern": "Generic Secrets",
+        "match": "password: 'NewPassword123!'",
+        "context": "password: 'NewPassword123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 471,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 513,
+        "pattern": "Generic Secrets",
+        "match": "password: 'MyStr0ng!Pass'",
+        "context": ".send({ password: 'MyStr0ng!Pass' })"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/auth.test.js",
+        "line": 548,
+        "pattern": "Generic Secrets",
+        "match": "password: 'Password123!'",
+        "context": "password: 'Password123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/orders.test.js",
+        "line": 29,
+        "pattern": "Generic Secrets",
+        "match": "password: 'AdminPass123!'",
+        "context": "password: 'AdminPass123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/orders.test.js",
+        "line": 39,
+        "pattern": "Generic Secrets",
+        "match": "password: 'UserPass123!'",
+        "context": "password: 'UserPass123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/products.test.js",
+        "line": 26,
+        "pattern": "Generic Secrets",
+        "match": "password: 'AdminPass123!'",
+        "context": "password: 'AdminPass123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/integration/products.test.js",
+        "line": 36,
+        "pattern": "Generic Secrets",
+        "match": "password: 'UserPass123!'",
+        "context": "password: 'UserPass123!',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 36,
+        "pattern": "Generic Secrets",
+        "match": "Token = 'mock.jwt.token'",
+        "context": "const mockToken = 'mock.jwt.token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 80,
+        "pattern": "Generic Secrets",
+        "match": "token: 'refresh-token-123'",
+        "context": "const mockTokenDoc = { token: 'refresh-token-123' };"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 92,
+        "pattern": "Generic Secrets",
+        "match": "token: 'refresh-token-123'",
+        "context": "const mockTokenDoc = { token: 'refresh-token-123' };"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 105,
+        "pattern": "Generic Secrets",
+        "match": "Token = 'valid-refresh-token'",
+        "context": "const refreshToken = 'valid-refresh-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 139,
+        "pattern": "Generic Secrets",
+        "match": "Token = 'old-refresh-token'",
+        "context": "const refreshToken = 'old-refresh-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 156,
+        "pattern": "Generic Secrets",
+        "match": "token: 'new-refresh-token'",
+        "context": "Token.createRefreshToken.mockResolvedValue({ token: 'new-refresh-token' });"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 168,
+        "pattern": "Generic Secrets",
+        "match": "Token = 'invalid-refresh-token'",
+        "context": "const refreshToken = 'invalid-refresh-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 180,
+        "pattern": "Generic Secrets",
+        "match": "Token = 'valid-refresh-token'",
+        "context": "const refreshToken = 'valid-refresh-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 204,
+        "pattern": "Generic Secrets",
+        "match": "token = 'jwt-token'",
+        "context": "const token = 'jwt-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 221,
+        "pattern": "Generic Secrets",
+        "match": "token = 'jwt-token'",
+        "context": "const token = 'jwt-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 238,
+        "pattern": "Generic Secrets",
+        "match": "token = 'jwt-token'",
+        "context": "const token = 'jwt-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 245,
+        "pattern": "Generic Secrets",
+        "match": "token = 'jwt-token'",
+        "context": "const token = 'jwt-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 257,
+        "pattern": "Generic Secrets",
+        "match": "password = 'MyStr0ng!Pass'",
+        "context": "const password = 'MyStr0ng!Pass';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 279,
+        "pattern": "Generic Secrets",
+        "match": "password = 'password123'",
+        "context": "const password = 'password123';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 359,
+        "pattern": "Generic Secrets",
+        "match": "token = 'my-secret-token'",
+        "context": "const token = 'my-secret-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 375,
+        "pattern": "Generic Secrets",
+        "match": "token = 'verification-token'",
+        "context": "const token = 'verification-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 392,
+        "pattern": "Generic Secrets",
+        "match": "token = 'reset-token'",
+        "context": "const token = 'reset-token';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/init/claude-commands/sparc-commands.js",
+        "line": 235,
+        "pattern": "Generic Secrets",
+        "match": "key: \"spec_auth\"",
+        "context": "key: \"spec_auth\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/init/claude-commands/sparc-commands.js",
+        "line": 243,
+        "pattern": "Generic Secrets",
+        "match": "key: \"arch_decisions\"",
+        "context": "key: \"arch_decisions\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/init/templates/CLAUDE.md",
+        "line": 1024,
+        "pattern": "Generic Secrets",
+        "match": "key: \"project/init\"",
+        "context": "mcp__claude-flow__memory_usage { action: \"store\", key: \"project/init\", value: { started: Date.now() } }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/init/templates/CLAUDE.md",
+        "line": 1071,
+        "pattern": "Generic Secrets",
+        "match": "key: \"swarm-{id}/agent-{name}/{step}\"",
+        "context": "key: \"swarm-{id}/agent-{name}/{step}\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/init/templates/CLAUDE.md",
+        "line": 1083,
+        "pattern": "Generic Secrets",
+        "match": "key: \"swarm-{id}/agent-{name}/{step}\"",
+        "context": "key: \"swarm-{id}/agent-{name}/{step}\""
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/sparc/coordinator.js",
+        "line": 796,
+        "pattern": "Generic Secrets",
+        "match": "key: 'sparc_coordination_final'",
+        "context": "key: 'sparc_coordination_final',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/swarm.js",
+        "line": 430,
+        "pattern": "Generic Secrets",
+        "match": "key: \"specs/requirements\"",
+        "context": "mcp__claude-flow__memory_store { key: \"specs/requirements\", value: {...} }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/swarm.js",
+        "line": 440,
+        "pattern": "Generic Secrets",
+        "match": "key: \"pseudocode/main\"",
+        "context": "mcp__claude-flow__memory_store { key: \"pseudocode/main\", value: {...} }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/swarm.js",
+        "line": 450,
+        "pattern": "Generic Secrets",
+        "match": "key: \"architecture/decisions\"",
+        "context": "mcp__claude-flow__memory_store { key: \"architecture/decisions\", value: {...} }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/swarm.js",
+        "line": 461,
+        "pattern": "Generic Secrets",
+        "match": "key: \"learnings/iteration1\"",
+        "context": "mcp__claude-flow__memory_store { key: \"learnings/iteration1\", value: {...} }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/cli/simple-commands/swarm.js",
+        "line": 499,
+        "pattern": "Generic Secrets",
+        "match": "key: \"progress\"",
+        "context": "mcp__claude-flow__memory_store { key: \"progress\", value: {...} }"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/enterprise/security-manager.ts",
+        "line": 1144,
+        "pattern": "Generic Secrets",
+        "match": "Key = \"AKIA123456789...\"",
+        "context": "snippet: 'const accessKey = \"AKIA123456789...\"',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/hive-mind/integration/ConsensusEngine.ts",
+        "line": 534,
+        "pattern": "Generic Secrets",
+        "match": "key: 'consensus-metrics'",
+        "context": "key: 'consensus-metrics',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/mcp/README.md",
+        "line": 271,
+        "pattern": "Generic Secrets",
+        "match": "password: 'hashed-password'",
+        "context": "password: 'hashed-password',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/swarm/direct-executor.ts",
+        "line": 962,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "div.innerHTML = \\`"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/README.md",
+        "line": 116,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'microservices_research'",
+        "context": "memoryKey: 'microservices_research',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/README.md",
+        "line": 123,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'system_architecture'",
+        "context": "memoryKey: 'system_architecture',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/README.md",
+        "line": 130,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'core_implementation'",
+        "context": "memoryKey: 'core_implementation',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 438,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'research_sources'",
+        "context": "memoryKey: 'research_sources',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 450,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'research_analysis'",
+        "context": "memoryKey: 'research_analysis',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 465,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'system_architecture'",
+        "context": "memoryKey: 'system_architecture',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 478,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'core_implementation'",
+        "context": "memoryKey: 'core_implementation',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 507,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'analysis_data'",
+        "context": "memoryKey: 'analysis_data',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 519,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'statistical_results'",
+        "context": "memoryKey: 'statistical_results',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 530,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'analysis_insights'",
+        "context": "memoryKey: 'analysis_insights',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 546,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'requirements_analysis'",
+        "context": "memoryKey: 'requirements_analysis',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 559,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'main_execution'",
+        "context": "memoryKey: 'main_execution',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/coordination.ts",
+        "line": 570,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'validation_results'",
+        "context": "memoryKey: 'validation_results',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/index.ts",
+        "line": 219,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'microservices_research'",
+        "context": "memoryKey: 'microservices_research',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/index.ts",
+        "line": 226,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'system_architecture'",
+        "context": "memoryKey: 'system_architecture',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/task/index.ts",
+        "line": 233,
+        "pattern": "Generic Secrets",
+        "match": "Key: 'core_implementation'",
+        "context": "memoryKey: 'core_implementation',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 337,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "perfSection.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 361,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "tokenSection.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 394,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "healthSection.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 443,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "alertElement.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 780,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 818,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 848,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 961,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "document.getElementById('alerts-container').innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/analysis-tools.js",
+        "line": 991,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 306,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "panel.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 687,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "agentsList.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 692,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "agentElement.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 766,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "visualization.innerHTML = Object.entries(statusCounts)"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 782,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "svg.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 821,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "consensusStatus.innerHTML = Array.from(this.consensus.values())"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 839,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "faultStatus.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/daa-tools.js",
+        "line": 859,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "optimizationStatus.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-interface.js",
+        "line": 35,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-interface.js",
+        "line": 342,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = this.renderNamespaceTree(namespaces);"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-interface.js",
+        "line": 384,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = keys.map((key) => this.renderKeyValueItem(key)).join('');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 139,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "header.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 185,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "tabElement.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 233,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "categoryHeader.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 266,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "toolCard.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 297,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "analyticsTab.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 360,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "managementTab.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 454,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "toggleButton.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 664,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "modal.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 972,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "timeline.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 977,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "operationElement.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 1090,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "insightsContainer.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 1148,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "backupList.innerHTML = '<div class=\"backups-placeholder\">No backups available</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/memory-tools.js",
+        "line": 1152,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "backupList.innerHTML = backups"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/settings.js",
+        "line": 510,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "infoElement.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/terminal-emulator.js",
+        "line": 118,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "entry.innerHTML = html;"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/terminal-emulator.js",
+        "line": 134,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.outputElement.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/terminal-emulator.js",
+        "line": 151,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "welcome.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/terminal-emulator.js",
+        "line": 287,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "contentElement.innerHTML = this.processAnsiCodes(content);"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/terminal-emulator.js",
+        "line": 550,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "indicator.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 33,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 261,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "item.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 766,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "panel.innerHTML = '<div class=\"no-selection\"><p>Select a node to edit properties</p></div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 786,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "panel.innerHTML = html;"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 954,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "content.innerHTML = html;"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 973,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "executionLog.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 1061,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "entry.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 1210,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "gallery.innerHTML = templates"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/js/workflow-designer.js",
+        "line": 1319,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "menu.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/console/neural-networks-demo.md",
+        "line": 199,
+        "pattern": "Generic Secrets",
+        "match": "key: 'neural_dev/implementation_complete'",
+        "context": "key: 'neural_dev/implementation_complete',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/components/ComponentLibrary.js",
+        "line": 92,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "content.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/components/ComponentLibrary.js",
+        "line": 355,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "content.innerHTML = html;"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/components/ComponentLibrary.js",
+        "line": 361,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "content.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/components/ComponentLibrary.js",
+        "line": 446,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "grid.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/components/ComponentLibrary.js",
+        "line": 519,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "tabPane.innerHTML = tab.content;"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/core/StateManager.js",
+        "line": 16,
+        "pattern": "Generic Secrets",
+        "match": "Key = 'claude-flow-ui-state'",
+        "context": "this.storageKey = 'claude-flow-ui-state';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/core/ViewManager.js",
+        "line": 376,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/core/ViewManager.js",
+        "line": 389,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "container.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 53,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 717,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 990,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "agentCard.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1024,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "matchesEl.innerHTML = '<div class=\"no-matches\">No matching agents found</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1028,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "matchesEl.innerHTML = matches"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1099,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "event.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1117,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "message.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1142,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "proposal.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1174,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "event.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1197,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "result.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/DAAView.js",
+        "line": 1272,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "activity.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 58,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 695,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 804,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "resultsEl.innerHTML = '<div class=\"analysis-running\">Analysis in progress...</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 860,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "summaryEl.innerHTML = '<div class=\"review-running\">Code review in progress...</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 1060,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "resultsEl.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 1148,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "summaryEl.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/GitHubIntegrationView.js",
+        "line": 1162,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "findingsEl.innerHTML = result.findings"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 45,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 448,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 566,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "statusEl.innerHTML = '<div class=\"status-training\">Training in progress...</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 586,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "outputEl.innerHTML = '<div class=\"prediction-result\">Prediction in progress...</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 607,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "insightsEl.innerHTML = '<div class=\"analysis-result\">Pattern analysis in progress...</div>';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 670,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "statusEl.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 689,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "outputEl.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/NeuralNetworkView.js",
+        "line": 713,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "insightsEl.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 49,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = '';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 658,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "this.container.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 826,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "card.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 849,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "card.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 871,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "item.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 955,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "component.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "src/ui/web-ui/views/WorkflowAutomationView.js",
+        "line": 1051,
+        "pattern": "innerHTML usage",
+        "match": ".innerHTML =",
+        "context": "activityItem.innerHTML = `"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/integration/mcp.test.ts",
+        "line": 355,
+        "pattern": "Generic Secrets",
+        "match": "password: 'wrongpass'",
+        "context": "password: 'wrongpass',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 103,
+        "pattern": "Generic Secrets",
+        "match": "key = 'updateable-key'",
+        "context": "const key = 'updateable-key';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 120,
+        "pattern": "Generic Secrets",
+        "match": "key = 'deletable-key'",
+        "context": "const key = 'deletable-key';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 442,
+        "pattern": "Generic Secrets",
+        "match": "key = 'shared-key'",
+        "context": "const key = 'shared-key';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 532,
+        "pattern": "Generic Secrets",
+        "match": "key: 'markdown-text'",
+        "context": "key: 'markdown-text',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 539,
+        "pattern": "Generic Secrets",
+        "match": "key: 'structured-data'",
+        "context": "key: 'structured-data',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 546,
+        "pattern": "Generic Secrets",
+        "match": "key: 'plain-text'",
+        "context": "key: 'plain-text',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 661,
+        "pattern": "Generic Secrets",
+        "match": "key: 'javascript-guide'",
+        "context": "key: 'javascript-guide',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 670,
+        "pattern": "Generic Secrets",
+        "match": "key: 'python-tutorial'",
+        "context": "key: 'python-tutorial',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 679,
+        "pattern": "Generic Secrets",
+        "match": "key: 'project-readme'",
+        "context": "key: 'project-readme',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 763,
+        "pattern": "Generic Secrets",
+        "match": "key = 'temporary-file'",
+        "context": "const key = 'temporary-file';"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "medium",
+        "file": "tests/unit/memory/memory-backends.test.ts",
+        "line": 830,
+        "pattern": "Generic Secrets",
+        "match": "key = 'shared-document'",
+        "context": "const key = 'shared-document';"
+      }
+    ],
+    "low": [
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/infrastructure/docker/docker-compose.yml",
+        "line": 115,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "- subnet: 172.20.0.0/16"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/infrastructure/docker/testing/IMPLEMENTATION_SUMMARY.md",
+        "line": 48,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "- **Custom Bridge Network**: `claude-swarm-network` (172.20.0.0/16)"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/infrastructure/docker/testing/docker-compose.test.yml",
+        "line": 123,
+        "pattern": "Hardcoded IPs",
+        "match": "172.21.0.0",
+        "context": "- subnet: 172.21.0.0/16"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/legacy-memory-system/docs/deployment.md",
+        "line": 674,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.0.0",
+        "context": "sudo ufw allow from 10.0.0.0/8 to any port 8080  # Internal API access"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/reports/DOCKER_TEST_REPORT.md",
+        "line": 126,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "- **Network Performance**: Custom bridge network (172.20.0.0/16)"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "archive/reports/WEB_UI_IMPLEMENTATION.md",
+        "line": 140,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "claude-flow start --ui --host 0.0.0.0 --port 8080"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "benchmark/hive-mind-benchmarks/docker/docker-compose.yml",
+        "line": 94,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "- subnet: 172.20.0.0/16"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docker/docker-compose.hive-mind.yml",
+        "line": 80,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "- NODE_OPTIONS=--inspect=0.0.0.0:9229"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docker/docker-compose.hive-mind.yml",
+        "line": 203,
+        "pattern": "Hardcoded IPs",
+        "match": "172.28.0.0",
+        "context": "- subnet: 172.28.0.0/16"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/07-mcp-integration.md",
+        "line": 181,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "\"host\": \"0.0.0.0\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/07-mcp-integration.md",
+        "line": 1080,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.0.0",
+        "context": "\"ipRanges\": [\"10.0.0.0/8\", \"192.168.0.0/16\"]"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/07-mcp-integration.md",
+        "line": 1080,
+        "pattern": "Hardcoded IPs",
+        "match": "192.168.0.0",
+        "context": "\"ipRanges\": [\"10.0.0.0/8\", \"192.168.0.0/16\"]"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/09-troubleshooting.md",
+        "line": 554,
+        "pattern": "Hardcoded IPs",
+        "match": "8.8.8.8",
+        "context": "ping -c 4 8.8.8.8"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/09-troubleshooting.md",
+        "line": 564,
+        "pattern": "Hardcoded IPs",
+        "match": "8.8.8.8",
+        "context": "echo \"nameserver 8.8.8.8\" | sudo tee -a /etc/resolv.conf"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/10-advanced-usage.md",
+        "line": 354,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.0.0",
+        "context": "sourceIP: [\"10.0.0.0/8\"]"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/INFRASTRUCTURE_ISSUE_RESOLUTION.md",
+        "line": 30,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "./claude-flow mcp start --port 8080 --host 0.0.0.0"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/INFRASTRUCTURE_ISSUE_RESOLUTION.md",
+        "line": 54,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "- **Host Options**: localhost, 0.0.0.0, or specific IP"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/INFRASTRUCTURE_ISSUE_RESOLUTION.md",
+        "line": 162,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "./claude-flow mcp start --host 0.0.0.0 --port 3000"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/deployment/docker.md",
+        "line": 268,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "- subnet: 172.20.0.0/16"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/deployment/docker.md",
+        "line": 518,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.0.0",
+        "context": "--subnet=172.20.0.0/16 \\"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/deployment/docker.md",
+        "line": 519,
+        "pattern": "Hardcoded IPs",
+        "match": "172.20.240.0",
+        "context": "--ip-range=172.20.240.0/20 \\"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "docs/integration/claude-flow-v2-integration-guide.md",
+        "line": 905,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "\"host\": \"0.0.0.0\","
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 295,
+        "pattern": "Hardcoded IPs",
+        "match": "192.168.1.1",
+        "context": "ip: '192.168.1.1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 303,
+        "pattern": "Hardcoded IPs",
+        "match": "192.168.1.1",
+        "context": "expect(deviceInfo.ip).toBe('192.168.1.1');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 311,
+        "pattern": "Hardcoded IPs",
+        "match": "192.168.1.2",
+        "context": "ip: '192.168.1.2',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "examples/05-swarm-apps/rest-api-advanced/tests/unit/auth.service.test.js",
+        "line": 324,
+        "pattern": "Hardcoded IPs",
+        "match": "192.168.1.1",
+        "context": "ip: '192.168.1.1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "scripts/check-links.ts",
+        "line": 37,
+        "pattern": "Hardcoded IPs",
+        "match": "127.0.0.1",
+        "context": "'127.0.0.1',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.js",
+        "line": 1822,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.45",
+        "context": "console.log('│ alice@corp.com  │ admin    │ 10.0.1.45    │ 2h ago      │ Hardware  │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.js",
+        "line": 1823,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.2.123",
+        "context": "console.log('│ bob@corp.com    │ developer│ 10.0.2.123   │ 45m ago     │ TOTP      │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.js",
+        "line": 1824,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.200",
+        "context": "console.log('│ charlie@corp.com│ operator │ 10.0.1.200   │ 1h ago      │ SMS       │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.js",
+        "line": 1975,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.45",
+        "context": "'2024-01-10 14:23:45 | AUTH_SUCCESS | alice@corp.com | Login from 10.0.1.45',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.ts",
+        "line": 1816,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.45",
+        "context": "console.log('│ alice@corp.com  │ admin    │ 10.0.1.45    │ 2h ago      │ Hardware  │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.ts",
+        "line": 1817,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.2.123",
+        "context": "console.log('│ bob@corp.com    │ developer│ 10.0.2.123   │ 45m ago     │ TOTP      │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.ts",
+        "line": 1818,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.200",
+        "context": "console.log('│ charlie@corp.com│ operator │ 10.0.1.200   │ 1h ago      │ SMS       │');"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/cli/simple-cli.ts",
+        "line": 1981,
+        "pattern": "Hardcoded IPs",
+        "match": "10.0.1.45",
+        "context": "'2024-01-10 14:23:45 | AUTH_SUCCESS | alice@corp.com | Login from 10.0.1.45',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/mcp/README.md",
+        "line": 260,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "host: '0.0.0.0',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "src/mcp/index.ts",
+        "line": 267,
+        "pattern": "Hardcoded IPs",
+        "match": "0.0.0.0",
+        "context": "host: '0.0.0.0',"
+      },
+      {
+        "type": "secret-pattern",
+        "severity": "low",
+        "file": "tests/integration/error-handling-patterns.test.js",
+        "line": 122,
+        "pattern": "Hardcoded IPs",
+        "match": "127.0.0.1",
+        "context": "line: 'Error: connect ECONNREFUSED 127.0.0.1:8080',"
+      }
+    ],
+    "info": []
+  },
+  "gates": {
+    "MAX_HIGH_VULNERABILITIES": 0,
+    "MAX_MEDIUM_VULNERABILITIES": 5,
+    "MAX_LOW_VULNERABILITIES": 20,
+    "MAX_SECRETS_DETECTED": 0,
+    "BLOCKED_DEPENDENCIES": [
+      "event-stream@3.3.6",
+      "eslint-scope@3.7.2",
+      "flatmap-stream@0.1.1"
+    ]
+  },
+  "recommendations": [
+    "⚠️ CRITICAL: Address all high-severity security issues immediately",
+    "Run `npm audit fix` to automatically fix dependency vulnerabilities",
+    "Review and address medium-severity security issues",
+    "Remove all hardcoded secrets and use environment variables",
+    "Consider using a secrets management service (AWS Secrets Manager, HashiCorp Vault)",
+    "Add pre-commit hooks to prevent secrets from being committed",
+    "Keep dependencies up to date with regular security patches",
+    "Enable automated security scanning in CI/CD pipeline",
+    "Review and follow OWASP security best practices"
+  ]
+}
