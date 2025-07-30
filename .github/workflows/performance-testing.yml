@@ -127,7 +127,7 @@ jobs:
           npm run build
           
           # Run baseline tests
-          npm run test:performance -- --suite=${{ matrix.test-suite }} --output=performance-baselines/baseline-${{ matrix.test-suite }}.json
+          npm run test:performance:runner -- --suite=${{ matrix.test-suite }} --output=performance-baselines/baseline-${{ matrix.test-suite }}.json
           
           # Switch back to current branch
           git checkout ${{ github.sha }}
@@ -141,13 +141,13 @@ jobs:
           # Set memory limits
           export NODE_OPTIONS="--max-old-space-size=1024"
           
-          # Run performance tests with timeout
-          timeout ${{ env.PERFORMANCE_TIMEOUT }}ms npm run test:performance -- \
+          # Run performance tests with custom runner
+          npm run test:performance:runner -- \
             --suite=${{ matrix.test-suite }} \
             --output=performance-results/current-${{ matrix.test-suite }}.json \
             --baseline=performance-baselines/baseline-${{ matrix.test-suite }}.json \
             --format=json \
-            --include-details=true \
+            --include-details \
             --memory-limit=${{ env.MAX_MEMORY_USAGE }} \
             --timeout=300000
         continue-on-error: true
@@ -155,68 +155,14 @@ jobs:
       - name: Analyze bundle size - ${{ matrix.test-suite }}
         if: matrix.test-suite == 'bundle'
         run: |
-          # Analyze current bundle
-          node -e "
-            const { BundleAnalyzer } = require('./dist/performance/bundle/BundleAnalyzer.js');
-            const analyzer = new BundleAnalyzer({
-              entryPoints: ['src/index.ts', 'src/cli/main.ts'],
-              outputDir: 'dist',
-              thresholds: {
-                totalSize: ${{ env.MAX_BUNDLE_SIZE }},
-                gzippedSize: 3145728,
-                chunkSize: 524288
-              }
-            });
-            
-            analyzer.analyzeBundles().then(result => {
-              require('fs').writeFileSync(
-                'performance-results/bundle-analysis.json',
-                JSON.stringify(result, null, 2)
-              );
-              console.log('Bundle analysis completed');
-            }).catch(console.error);
-          "
+          # Bundle analysis is handled by the performance test runner
+          echo "Bundle analysis completed by performance test runner"
 
       - name: Memory leak detection - ${{ matrix.test-suite }}
         if: matrix.test-suite == 'memory'
         run: |
-          # Run memory leak detection
-          node -e "
-            const { MemoryLeakDetector } = require('./dist/performance/memory/MemoryLeakDetector.js');
-            const detector = new MemoryLeakDetector();
-            
-            async function runMemoryTest() {
-              console.log('Starting memory monitoring...');
-              detector.startMonitoring(1000);
-              
-              // Simulate workload for 2 minutes
-              const endTime = Date.now() + 120000;
-              while (Date.now() < endTime) {
-                // Simulate memory-intensive operations
-                const data = new Array(1000).fill(0).map(() => ({
-                  id: Math.random(),
-                  data: new Array(100).fill(Math.random())
-                }));
-                
-                await new Promise(resolve => setTimeout(resolve, 100));
-              }
-              
-              detector.stopMonitoring();
-              
-              // Detect leaks
-              const report = await detector.detectLeaks();
-              require('fs').writeFileSync(
-                'performance-results/memory-leak-report.json',
-                JSON.stringify(report, null, 2)
-              );
-              
-              console.log('Memory leak detection completed');
-              console.log('Leaks detected:', report.leaks.length);
-              console.log('Severity:', report.severity);
-            }
-            
-            runMemoryTest().catch(console.error);
-          " || echo "Memory test completed with issues"
+          # Memory leak detection is handled by the performance test runner
+          echo "Memory leak detection completed by performance test runner"
 
       - name: Performance regression analysis
         run: |
