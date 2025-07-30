@@ -1,0 +1,18 @@
+{
+  "id": { "id": "benchmark-agent-001", "swarmId": "benchmark-swarm" },
+  "name": "Benchmark Agent",
+  "type": "coder",
+  "status": "idle",
+  "capabilities": {
+    "canCode": true,
+    "canAnalyze": true,
+    "canTest": false,
+    "canReview": false,
+    "canDocument": false
+  },
+  "environment": {
+    "nodeVersion": "20.0.0",
+    "platform": "linux",
+    "credentials": {}
+  }
+}

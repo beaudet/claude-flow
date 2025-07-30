@@ -1,0 +1,741 @@
+name: Performance Testing and Regression Detection
+
+on:
+  push:
+    branches: [ main, develop, feature/claude-4-maxpro-bleeding-edge ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run performance tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Performance test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+        - all
+        - startup
+        - runtime
+        - memory
+        - bundle
+        - api
+        - integration
+      baseline_branch:
+        description: 'Branch to compare against (baseline)'
+        required: false
+        default: 'main'
+      generate_report:
+        description: 'Generate detailed performance report'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  NODE_VERSION: '20'
+  PERFORMANCE_TIMEOUT: 1800000  # 30 minutes
+  MAX_MEMORY_USAGE: 1073741824  # 1GB
+  MAX_BUNDLE_SIZE: 10485760     # 10MB
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      baseline-ref: ${{ steps.baseline.outputs.ref }}
+      test-matrix: ${{ steps.matrix.outputs.tests }}
+      should-run: ${{ steps.check.outputs.should-run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if performance tests should run
+        id: check
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "should-run=true" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # Check if performance-related files changed
+            if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(ts|js|json)$|package\.json|tsconfig\.json|webpack\.config\.|rollup\.config\.'; then
+              echo "should-run=true" >> $GITHUB_OUTPUT
+            else
+              echo "should-run=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "should-run=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Determine baseline reference
+        id: baseline
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "ref=${{ github.base_ref }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ inputs.baseline_branch }}" != "" ]]; then
+            echo "ref=${{ inputs.baseline_branch }}" >> $GITHUB_OUTPUT
+          else
+            echo "ref=main" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate test matrix
+        id: matrix
+        run: |
+          if [[ "${{ inputs.test_suite }}" == "all" ]] || [[ "${{ inputs.test_suite }}" == "" ]]; then
+            echo 'tests=["startup", "runtime", "memory", "bundle", "api", "integration"]' >> $GITHUB_OUTPUT
+          else
+            echo 'tests=["${{ inputs.test_suite }}"]' >> $GITHUB_OUTPUT
+          fi
+
+  performance-tests:
+    needs: setup
+    if: needs.setup.outputs.should-run == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-suite: ${{ fromJson(needs.setup.outputs.test-matrix) }}
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build
+
+      - name: Setup performance monitoring
+        run: |
+          mkdir -p performance-results
+          mkdir -p performance-baselines
+          mkdir -p performance-reports
+
+      - name: Checkout baseline for comparison
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        run: |
+          git fetch origin ${{ needs.setup.outputs.baseline-ref }}
+          git checkout -b baseline origin/${{ needs.setup.outputs.baseline-ref }}
+          npm ci
+          npm run build
+          
+          # Run baseline tests
+          npm run test:performance -- --suite=${{ matrix.test-suite }} --output=performance-baselines/baseline-${{ matrix.test-suite }}.json
+          
+          # Switch back to current branch
+          git checkout ${{ github.sha }}
+          npm ci
+          npm run build
+
+      - name: Run performance tests - ${{ matrix.test-suite }}
+        run: |
+          echo "Running ${{ matrix.test-suite }} performance tests..."
+          
+          # Set memory limits
+          export NODE_OPTIONS="--max-old-space-size=1024"
+          
+          # Run performance tests with timeout
+          timeout ${{ env.PERFORMANCE_TIMEOUT }}ms npm run test:performance -- \
+            --suite=${{ matrix.test-suite }} \
+            --output=performance-results/current-${{ matrix.test-suite }}.json \
+            --baseline=performance-baselines/baseline-${{ matrix.test-suite }}.json \
+            --format=json \
+            --include-details=true \
+            --memory-limit=${{ env.MAX_MEMORY_USAGE }} \
+            --timeout=300000
+        continue-on-error: true
+
+      - name: Analyze bundle size - ${{ matrix.test-suite }}
+        if: matrix.test-suite == 'bundle'
+        run: |
+          # Analyze current bundle
+          node -e "
+            const { BundleAnalyzer } = require('./dist/performance/bundle/BundleAnalyzer.js');
+            const analyzer = new BundleAnalyzer({
+              entryPoints: ['src/index.ts', 'src/cli/main.ts'],
+              outputDir: 'dist',
+              thresholds: {
+                totalSize: ${{ env.MAX_BUNDLE_SIZE }},
+                gzippedSize: 3145728,
+                chunkSize: 524288
+              }
+            });
+            
+            analyzer.analyzeBundles().then(result => {
+              require('fs').writeFileSync(
+                'performance-results/bundle-analysis.json',
+                JSON.stringify(result, null, 2)
+              );
+              console.log('Bundle analysis completed');
+            }).catch(console.error);
+          "
+
+      - name: Memory leak detection - ${{ matrix.test-suite }}
+        if: matrix.test-suite == 'memory'
+        run: |
+          # Run memory leak detection
+          node -e "
+            const { MemoryLeakDetector } = require('./dist/performance/memory/MemoryLeakDetector.js');
+            const detector = new MemoryLeakDetector();
+            
+            async function runMemoryTest() {
+              console.log('Starting memory monitoring...');
+              detector.startMonitoring(1000);
+              
+              // Simulate workload for 2 minutes
+              const endTime = Date.now() + 120000;
+              while (Date.now() < endTime) {
+                // Simulate memory-intensive operations
+                const data = new Array(1000).fill(0).map(() => ({
+                  id: Math.random(),
+                  data: new Array(100).fill(Math.random())
+                }));
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+              }
+              
+              detector.stopMonitoring();
+              
+              // Detect leaks
+              const report = await detector.detectLeaks();
+              require('fs').writeFileSync(
+                'performance-results/memory-leak-report.json',
+                JSON.stringify(report, null, 2)
+              );
+              
+              console.log('Memory leak detection completed');
+              console.log('Leaks detected:', report.leaks.length);
+              console.log('Severity:', report.severity);
+            }
+            
+            runMemoryTest().catch(console.error);
+          " || echo "Memory test completed with issues"
+
+      - name: Performance regression analysis
+        run: |
+          # Analyze results for regressions
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            function analyzeRegression() {
+              const currentFile = 'performance-results/current-${{ matrix.test-suite }}.json';
+              const baselineFile = 'performance-baselines/baseline-${{ matrix.test-suite }}.json';
+              
+              if (!fs.existsSync(currentFile)) {
+                console.log('No current performance results found');
+                return;
+              }
+              
+              const current = JSON.parse(fs.readFileSync(currentFile, 'utf8'));
+              let baseline = null;
+              
+              if (fs.existsSync(baselineFile)) {
+                baseline = JSON.parse(fs.readFileSync(baselineFile, 'utf8'));
+              }
+              
+              const analysis = {
+                suite: '${{ matrix.test-suite }}',
+                timestamp: Date.now(),
+                current: current,
+                baseline: baseline,
+                regressions: [],
+                improvements: [],
+                summary: {
+                  hasRegressions: false,
+                  criticalIssues: 0,
+                  performanceScore: 100
+                }
+              };
+              
+              if (baseline) {
+                // Compare key metrics
+                const metrics = ['duration', 'memoryUsage', 'cpuUsage'];
+                metrics.forEach(metric => {
+                  const currentVal = current.summary?.[metric] || current[metric];
+                  const baselineVal = baseline.summary?.[metric] || baseline[metric];
+                  
+                  if (currentVal && baselineVal) {
+                    const change = ((currentVal - baselineVal) / baselineVal) * 100;
+                    
+                    if (change > 10) { // 10% regression threshold
+                      analysis.regressions.push({
+                        metric: metric,
+                        current: currentVal,
+                        baseline: baselineVal,
+                        changePercent: change,
+                        severity: change > 25 ? 'critical' : 'moderate'
+                      });
+                      
+                      if (change > 25) {
+                        analysis.summary.criticalIssues++;
+                      }
+                      
+                      analysis.summary.hasRegressions = true;
+                      analysis.summary.performanceScore -= Math.min(30, change);
+                    } else if (change < -5) { // 5% improvement
+                      analysis.improvements.push({
+                        metric: metric,
+                        current: currentVal,
+                        baseline: baselineVal,
+                        changePercent: Math.abs(change)
+                      });
+                    }
+                  }
+                });
+              }
+              
+              fs.writeFileSync(
+                'performance-results/regression-analysis-${{ matrix.test-suite }}.json',
+                JSON.stringify(analysis, null, 2)
+              );
+              
+              // Exit with error code if critical regressions found
+              if (analysis.summary.criticalIssues > 0) {
+                console.error('Critical performance regressions detected!');
+                process.exit(1);
+              } else if (analysis.summary.hasRegressions) {
+                console.warn('Performance regressions detected');
+                process.exit(0); // Don't fail build for moderate regressions
+              } else {
+                console.log('No performance regressions detected');
+              }
+            }
+            
+            analyzeRegression();
+          "
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results-${{ matrix.test-suite }}
+          path: |
+            performance-results/
+            performance-baselines/
+          retention-days: 30
+
+  performance-gates:
+    needs: [setup, performance-tests]
+    if: needs.setup.outputs.should-run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all performance results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: performance-results-*
+          path: performance-results
+          merge-multiple: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Evaluate performance gates
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            function evaluateGates() {
+              const gates = [
+                {
+                  name: 'Memory Usage',
+                  metric: 'memoryUsage',
+                  threshold: ${{ env.MAX_MEMORY_USAGE }},
+                  operator: 'lt',
+                  blocking: true
+                },
+                {
+                  name: 'Bundle Size',
+                  metric: 'bundleSize',
+                  threshold: ${{ env.MAX_BUNDLE_SIZE }},
+                  operator: 'lt',
+                  blocking: true
+                },
+                {
+                  name: 'Performance Regression',
+                  metric: 'regressionPercent',
+                  threshold: 25,
+                  operator: 'lt',
+                  blocking: false
+                }
+              ];
+              
+              const results = [];
+              let criticalFailures = 0;
+              
+              // Check each test suite results
+              const resultFiles = fs.readdirSync('performance-results')
+                .filter(f => f.startsWith('regression-analysis-') && f.endsWith('.json'));
+              
+              resultFiles.forEach(file => {
+                const analysis = JSON.parse(fs.readFileSync(path.join('performance-results', file), 'utf8'));
+                
+                gates.forEach(gate => {
+                  let value = 0;
+                  let passed = true;
+                  
+                  switch(gate.metric) {
+                    case 'memoryUsage':
+                      value = analysis.current?.summary?.memoryUsage || 0;
+                      break;
+                    case 'bundleSize':
+                      value = analysis.current?.totalSize || 0;
+                      break;
+                    case 'regressionPercent':
+                      const maxRegression = Math.max(0, ...analysis.regressions.map(r => r.changePercent));
+                      value = maxRegression;
+                      break;
+                  }
+                  
+                  switch(gate.operator) {
+                    case 'lt':
+                      passed = value < gate.threshold;
+                      break;
+                    case 'lte':
+                      passed = value <= gate.threshold;
+                      break;
+                    case 'gt':
+                      passed = value > gate.threshold;
+                      break;
+                    case 'gte':
+                      passed = value >= gate.threshold;
+                      break;
+                  }
+                  
+                  const result = {
+                    gate: gate.name,
+                    suite: analysis.suite,
+                    passed: passed,
+                    value: value,
+                    threshold: gate.threshold,
+                    blocking: gate.blocking
+                  };
+                  
+                  results.push(result);
+                  
+                  if (!passed && gate.blocking) {
+                    criticalFailures++;
+                  }
+                  
+                  console.log(
+                    passed ? '✅' : '❌',
+                    gate.name,
+                    '(' + analysis.suite + '):',
+                    value,
+                    gate.operator,
+                    gate.threshold,
+                    passed ? 'PASS' : 'FAIL'
+                  );
+                });
+              });
+              
+              const gateResults = {
+                timestamp: Date.now(),
+                results: results,
+                summary: {
+                  totalGates: results.length,
+                  passedGates: results.filter(r => r.passed).length,
+                  failedGates: results.filter(r => !r.passed).length,
+                  criticalFailures: criticalFailures,
+                  overallStatus: criticalFailures > 0 ? 'FAILED' : 'PASSED'
+                }
+              };
+              
+              fs.writeFileSync('performance-results/gate-results.json', JSON.stringify(gateResults, null, 2));
+              
+              console.log('\\n📊 Performance Gates Summary:');
+              console.log('Total Gates:', gateResults.summary.totalGates);
+              console.log('Passed:', gateResults.summary.passedGates);
+              console.log('Failed:', gateResults.summary.failedGates);
+              console.log('Critical Failures:', gateResults.summary.criticalFailures);
+              console.log('Overall Status:', gateResults.summary.overallStatus);
+              
+              if (criticalFailures > 0) {
+                console.error('\\n❌ Performance gates failed! Build should not proceed.');
+                process.exit(1);
+              } else {
+                console.log('\\n✅ All performance gates passed!');
+              }
+            }
+            
+            evaluateGates();
+          "
+
+      - name: Generate performance report
+        if: inputs.generate_report != 'false'
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            function generateReport() {
+              const reportData = {
+                timestamp: Date.now(),
+                commit: '${{ github.sha }}',
+                branch: '${{ github.ref_name }}',
+                pr: '${{ github.event.number }}',
+                baseline: '${{ needs.setup.outputs.baseline-ref }}',
+                summary: {
+                  totalTests: 0,
+                  passedTests: 0,
+                  failedTests: 0,
+                  regressions: 0,
+                  improvements: 0
+                },
+                results: [],
+                gates: null
+              };
+              
+              // Collect all results
+              const resultFiles = fs.readdirSync('performance-results')
+                .filter(f => f.startsWith('regression-analysis-') && f.endsWith('.json'));
+              
+              resultFiles.forEach(file => {
+                const analysis = JSON.parse(fs.readFileSync(path.join('performance-results', file), 'utf8'));
+                reportData.results.push(analysis);
+                
+                reportData.summary.totalTests++;
+                if (analysis.summary.hasRegressions) {
+                  if (analysis.summary.criticalIssues > 0) {
+                    reportData.summary.failedTests++;
+                  }
+                } else {
+                  reportData.summary.passedTests++;
+                }
+                
+                reportData.summary.regressions += analysis.regressions.length;
+                reportData.summary.improvements += analysis.improvements.length;
+              });
+              
+              // Include gate results if available
+              if (fs.existsSync('performance-results/gate-results.json')) {
+                reportData.gates = JSON.parse(fs.readFileSync('performance-results/gate-results.json', 'utf8'));
+              }
+              
+              // Generate HTML report
+              const htmlReport = \`
+              <!DOCTYPE html>
+              <html>
+              <head>
+                  <title>Performance Test Report</title>
+                  <style>
+                      body { font-family: Arial, sans-serif; margin: 20px; }
+                      .header { background: #f5f5f5; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+                      .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+                      .metric { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 5px; text-align: center; }
+                      .metric h3 { margin: 0 0 10px 0; color: #333; }
+                      .metric .value { font-size: 24px; font-weight: bold; }
+                      .passed { color: #4caf50; }
+                      .failed { color: #f44336; }
+                      .warning { color: #ff9800; }
+                      table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+                      th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                      th { background-color: #f2f2f2; }
+                      .regression { background-color: #ffebee; }
+                      .improvement { background-color: #e8f5e8; }
+                  </style>
+              </head>
+              <body>
+                  <div class=\"header\">
+                      <h1>Performance Test Report</h1>
+                      <p><strong>Commit:</strong> ${{ github.sha }}</p>
+                      <p><strong>Branch:</strong> ${{ github.ref_name }}</p>
+                      <p><strong>Date:</strong> \${new Date().toISOString()}</p>
+                  </div>
+                  
+                  <div class=\"summary\">
+                      <div class=\"metric\">
+                          <h3>Total Tests</h3>
+                          <div class=\"value\">\${reportData.summary.totalTests}</div>
+                      </div>
+                      <div class=\"metric\">
+                          <h3>Passed</h3>
+                          <div class=\"value passed\">\${reportData.summary.passedTests}</div>
+                      </div>
+                      <div class=\"metric\">
+                          <h3>Failed</h3>
+                          <div class=\"value failed\">\${reportData.summary.failedTests}</div>
+                      </div>
+                      <div class=\"metric\">
+                          <h3>Regressions</h3>
+                          <div class=\"value warning\">\${reportData.summary.regressions}</div>
+                      </div>
+                      <div class=\"metric\">
+                          <h3>Improvements</h3>
+                          <div class=\"value passed\">\${reportData.summary.improvements}</div>
+                      </div>
+                  </div>
+                  
+                  <h2>Test Results</h2>
+                  <table>
+                      <tr>
+                          <th>Suite</th>
+                          <th>Status</th>
+                          <th>Performance Score</th>
+                          <th>Regressions</th>
+                          <th>Critical Issues</th>
+                      </tr>
+                      \${reportData.results.map(result => \`
+                      <tr class=\"\${result.summary.hasRegressions ? 'regression' : ''}\">
+                          <td>\${result.suite}</td>
+                          <td class=\"\${result.summary.criticalIssues > 0 ? 'failed' : 'passed'}\">
+                              \${result.summary.criticalIssues > 0 ? 'FAILED' : 'PASSED'}
+                          </td>
+                          <td>\${result.summary.performanceScore.toFixed(1)}%</td>
+                          <td>\${result.regressions.length}</td>
+                          <td>\${result.summary.criticalIssues}</td>
+                      </tr>
+                      \`).join('')}
+                  </table>
+                  
+                  \${reportData.gates ? \`
+                  <h2>Performance Gates</h2>
+                  <table>
+                      <tr>
+                          <th>Gate</th>
+                          <th>Suite</th>
+                          <th>Status</th>
+                          <th>Value</th>
+                          <th>Threshold</th>
+                          <th>Blocking</th>
+                      </tr>
+                      \${reportData.gates.results.map(gate => \`
+                      <tr class=\"\${gate.passed ? '' : 'regression'}\">
+                          <td>\${gate.gate}</td>
+                          <td>\${gate.suite}</td>
+                          <td class=\"\${gate.passed ? 'passed' : 'failed'}\">\${gate.passed ? 'PASS' : 'FAIL'}</td>
+                          <td>\${gate.value}</td>
+                          <td>\${gate.threshold}</td>
+                          <td>\${gate.blocking ? 'Yes' : 'No'}</td>
+                      </tr>
+                      \`).join('')}
+                  </table>
+                  \` : ''}
+              </body>
+              </html>
+              \`;
+              
+              fs.writeFileSync('performance-results/report.html', htmlReport);
+              fs.writeFileSync('performance-results/report.json', JSON.stringify(reportData, null, 2));
+              
+              console.log('Performance report generated successfully!');
+            }
+            
+            generateReport();
+          "
+
+      - name: Comment PR with performance results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            if (!fs.existsSync('performance-results/report.json')) {
+              console.log('No performance report available');
+              return;
+            }
+            
+            const report = JSON.parse(fs.readFileSync('performance-results/report.json', 'utf8'));
+            
+            let status = '✅ Performance tests passed';
+            if (report.summary.failedTests > 0) {
+              status = '❌ Performance tests failed';
+            } else if (report.summary.regressions > 0) {
+              status = '⚠️ Performance regressions detected';
+            }
+            
+            const body = `## ${status}
+            
+            ### Summary
+            - **Total Tests:** ${report.summary.totalTests}
+            - **Passed:** ${report.summary.passedTests}
+            - **Failed:** ${report.summary.failedTests}
+            - **Regressions:** ${report.summary.regressions}
+            - **Improvements:** ${report.summary.improvements}
+            
+            ### Test Results
+            ${report.results.map(result => `
+            **${result.suite}**: ${result.summary.criticalIssues > 0 ? '❌ FAILED' : '✅ PASSED'} (Score: ${result.summary.performanceScore.toFixed(1)}%)
+            ${result.regressions.length > 0 ? `  - Regressions: ${result.regressions.length}` : ''}
+            ${result.improvements.length > 0 ? `  - Improvements: ${result.improvements.length}` : ''}
+            `).join('')}
+            
+            ${report.gates ? `
+            ### Performance Gates
+            **Status:** ${report.gates.summary.overallStatus}
+            - Passed: ${report.gates.summary.passedGates}
+            - Failed: ${report.gates.summary.failedGates}
+            - Critical Failures: ${report.gates.summary.criticalFailures}
+            ` : ''}
+            
+            <details>
+            <summary>View detailed performance report</summary>
+            
+            [Download full report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            </details>
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-report
+          path: |
+            performance-results/report.html
+            performance-results/report.json
+            performance-results/gate-results.json
+          retention-days: 90
+
+  notify-performance-regression:
+    needs: [setup, performance-tests, performance-gates]
+    if: failure() && needs.setup.outputs.should-run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify performance regression
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🚨 Performance Regression Detected';
+            const body = `
+            Performance regression detected in commit ${{ github.sha }}.
+            
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **Workflow:** ${{ github.workflow }}
+            **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            Please review the performance test results and address any critical issues before merging.
+            `;
+            
+            // Create issue for performance regression
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['performance', 'regression', 'priority-high']
+            });

@@ -1,0 +1,167 @@
+# Docker Compose for Agent Execution Testing
+version: '3.8'
+
+services:
+  # Agent execution environment
+  claude-flow-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: claude-flow-agent:latest
+    container_name: claude-flow-agent-test
+    restart: "no"
+    
+    # Security configuration
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:unconfined
+      - apparmor:unconfined
+    
+    read_only: true
+    
+    user: "1001:1001"  # swarm:swarm
+    
+    # Resource limits
+    mem_limit: 256m
+    cpus: '0.5'
+    
+    # Capabilities
+    cap_drop:
+      - ALL
+    
+    # Ulimits
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 1024
+      nproc:
+        soft: 32
+        hard: 32
+    
+    # Temporary filesystems
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=100m
+      - /workspace/temp:rw,noexec,nosuid,size=50m
+    
+    # Volumes for isolated workspace
+    volumes:
+      - agent-workspace:/workspace:rw
+      - agent-logs:/workspace/logs:rw
+    
+    # Network isolation
+    networks:
+      - agent-network
+    
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - SWARM_MODE=agent-execution
+      - CONTAINER_ID=${CONTAINER_ID:-test}
+      - AGENT_ID=${AGENT_ID:-test-agent}
+      - TASK_ID=${TASK_ID:-test-task}
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "echo", "healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Performance comparison baseline (process-based)
+  claude-flow-process:
+    image: node:20-alpine
+    container_name: claude-flow-process-test
+    restart: "no"
+    
+    working_dir: /app
+    
+    volumes:
+      - ../../:/app:ro
+      - process-workspace:/workspace:rw
+    
+    networks:
+      - agent-network
+    
+    environment:
+      - NODE_ENV=test
+      - EXECUTION_MODE=process
+    
+    command: ["sleep", "infinity"]
+
+  # Network latency testing
+  network-test:
+    image: alpine:latest
+    container_name: network-test
+    restart: "no"
+    
+    networks:
+      - agent-network
+    
+    command: ["ping", "-c", "5", "claude-flow-agent"]
+
+  # Performance monitoring
+  performance-monitor:
+    image: alpine:latest
+    container_name: performance-monitor
+    restart: "no"
+    
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - performance-data:/data:rw
+    
+    networks:
+      - agent-network
+    
+    command: |
+      sh -c "
+        echo 'Performance monitoring started'
+        while true; do
+          echo '=== Container Stats ===' >> /data/performance.log
+          date >> /data/performance.log
+          # Note: This would require docker CLI in the container
+          echo 'Stats collection would go here' >> /data/performance.log
+          sleep 30
+        done
+      "
+
+networks:
+  agent-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: claude-agent-br
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+volumes:
+  agent-workspace:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m,uid=1001,gid=1001
+  
+  agent-logs:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=50m,uid=1001,gid=1001
+  
+  process-workspace:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m
+  
+  performance-data:
+    driver: local

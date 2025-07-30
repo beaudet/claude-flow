@@ -1,0 +1,21 @@
+{
+  "id": { "id": "benchmark-task-001", "swarmId": "benchmark-swarm" },
+  "name": "Benchmark Task",
+  "type": "computation",
+  "description": "Performance benchmark computation task",
+  "instructions": "Execute a standardized computation for benchmarking",
+  "priority": "normal",
+  "status": "pending",
+  "context": {},
+  "input": { "complexity": "medium", "iterations": 1000 },
+  "requirements": {
+    "tools": ["calculator"],
+    "memoryRequired": 67108864,
+    "maxDuration": 10000,
+    "minReliability": 0.9
+  },
+  "constraints": {
+    "timeoutAfter": 30000,
+    "maxRetries": 3
+  }
+}
