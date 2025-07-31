@@ -1,0 +1,23 @@
+[
+  {
+    "testName": "File Exists: Main CLI file",
+    "timestamp": "2025-07-30T02:53:42.232Z",
+    "details": {
+      "path": "/home/bob/src/claude-flow/dist/cli/main.js",
+      "exists": false,
+      "size": 0,
+      "type": "none"
+    },
+    "sessionId": "1753844022131"
+  },
+  {
+    "testName": "Command: npm run build",
+    "timestamp": "2025-07-30T02:53:48.634Z",
+    "details": {
+      "error": "Command failed with exit code 127",
+      "stderr": "sh: 1: pkg: not found",
+      "exitCode": 127
+    },
+    "sessionId": "1753844022131"
+  }
+]

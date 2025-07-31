@@ -1,0 +1,62 @@
+[
+  {
+    "testName": "Command: node /home/bob/src/claude-flow/dist/cli/main.js --help",
+    "timestamp": "2025-07-30T02:51:53.927Z",
+    "details": {
+      "error": "Command failed with exit code 1",
+      "stderr": "file:///home/bob/src/claude-flow/dist/cli/commands/migrate.js:5\nimport { logger } from '../../migration/logger.js';\n         ^^^^^^\nSyntaxError: The requested module '../../migration/logger.js' does not provide an export named 'logger'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v20.19.4",
+      "exitCode": 1
+    },
+    "sessionId": "1753843913743"
+  },
+  {
+    "testName": "Command: node /home/bob/src/claude-flow/dist/cli/main.js --version",
+    "timestamp": "2025-07-30T02:51:54.004Z",
+    "details": {
+      "error": "Command failed with exit code 1",
+      "stderr": "file:///home/bob/src/claude-flow/dist/cli/commands/migrate.js:5\nimport { logger } from '../../migration/logger.js';\n         ^^^^^^\nSyntaxError: The requested module '../../migration/logger.js' does not provide an export named 'logger'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v20.19.4",
+      "exitCode": 1
+    },
+    "sessionId": "1753843913743"
+  },
+  {
+    "testName": "Command: npx tsx src/cli/main.ts --help",
+    "timestamp": "2025-07-30T02:51:54.598Z",
+    "details": {
+      "error": "Command failed with exit code 1",
+      "stderr": "/home/bob/src/claude-flow/src/core/logger.ts:79\n          throw new Error('Logger configuration required for initialization');\n                ^\n\n\nError: Logger configuration required for initialization\n    at Function.getInstance (/home/bob/src/claude-flow/src/core/logger.ts:79:17)\n    at <anonymous> (/home/bob/src/claude-flow/src/core/logger.ts:313:30)\n    at ModuleJob.run (node:internal/modules/esm/module_job:263:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v20.19.4",
+      "exitCode": 1
+    },
+    "sessionId": "1753843913743"
+  },
+  {
+    "testName": "Command: npm run build",
+    "timestamp": "2025-07-30T02:52:00.998Z",
+    "details": {
+      "error": "Command failed with exit code 127",
+      "stderr": "sh: 1: pkg: not found",
+      "exitCode": 127
+    },
+    "sessionId": "1753843913743"
+  },
+  {
+    "testName": "Command: npx tsx src/cli/main.ts --help",
+    "timestamp": "2025-07-30T02:52:01.549Z",
+    "details": {
+      "error": "Command failed with exit code 1",
+      "stderr": "/home/bob/src/claude-flow/src/core/logger.ts:79\n          throw new Error('Logger configuration required for initialization');\n                ^\n\n\nError: Logger configuration required for initialization\n    at Function.getInstance (/home/bob/src/claude-flow/src/core/logger.ts:79:17)\n    at <anonymous> (/home/bob/src/claude-flow/src/core/logger.ts:313:30)\n    at ModuleJob.run (node:internal/modules/esm/module_job:263:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v20.19.4",
+      "exitCode": 1
+    },
+    "sessionId": "1753843913743"
+  },
+  {
+    "testName": "Command: npx tsx src/cli/main.ts --version",
+    "timestamp": "2025-07-30T02:52:02.103Z",
+    "details": {
+      "error": "Command failed with exit code 1",
+      "stderr": "/home/bob/src/claude-flow/src/core/logger.ts:79\n          throw new Error('Logger configuration required for initialization');\n                ^\n\n\nError: Logger configuration required for initialization\n    at Function.getInstance (/home/bob/src/claude-flow/src/core/logger.ts:79:17)\n    at <anonymous> (/home/bob/src/claude-flow/src/core/logger.ts:313:30)\n    at ModuleJob.run (node:internal/modules/esm/module_job:263:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n\nNode.js v20.19.4",
+      "exitCode": 1
+    },
+    "sessionId": "1753843913743"
+  }
+]

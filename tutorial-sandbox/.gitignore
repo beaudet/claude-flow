@@ -1,0 +1,6 @@
+# SPARC Tutorial Sandbox - Ignore all contents
+*
+!.gitignore
+
+# This directory is for safe SPARC tutorial experimentation
+# All files created here will be ignored by git

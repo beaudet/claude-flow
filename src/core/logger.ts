@@ -73,13 +73,12 @@ export class Logger implements ILogger {
   static getInstance(config?: LoggingConfig): Logger {
     if (!Logger.instance) {
       if (!config) {
-        // Use default config if none provided and not in test environment
+        // Use appropriate default config based on environment
         const isTestEnv = process.env.CLAUDE_FLOW_ENV === 'test';
-        if (isTestEnv) {
-          throw new Error('Logger configuration required for initialization');
-        }
+        const isSafeMode = process.env.CLAUDE_FLOW_SAFE_MODE === 'true';
+        
         config = {
-          level: 'info',
+          level: isTestEnv || isSafeMode ? 'error' : 'info',
           format: 'json',
           destination: 'console',
         };

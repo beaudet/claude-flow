@@ -1,0 +1,10 @@
+{
+  "sessionId": "1753844022131",
+  "timestamp": "2025-07-30T02:53:49.810Z",
+  "totalTests": 16,
+  "passed": 14,
+  "failed": 2,
+  "successRate": "87.50%",
+  "issuesCount": 2,
+  "sessionDir": "/home/bob/src/claude-flow/test-results/session-1753844022131"
+}
